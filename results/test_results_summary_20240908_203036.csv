@@ -1,0 +1,17 @@
+Metric,Value
+Total Tests,20
+Passed,5
+Failed,6
+Errors,9
+Pass Rate,25.00%
+Fail Rate,30.00%
+Error Rate,45.00%
+
+Status Code,Count
+200,7
+400,3
+415,1
+
+Failure Reason,Count
+status_code_mismatch,6
+parsing_error,9
