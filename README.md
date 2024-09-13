@@ -15,7 +15,7 @@ SmartAPITester is an intelligent REST API testing tool that leverages AI to gene
 
 1. Clone the repository:
    ```
-   git clone https://github.com/yourusername/SmartAPITester.git
+   git clone https://github.com/Juan171109/SmartAPITester.git
    cd SmartAPITester
    ```
 
