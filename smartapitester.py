@@ -38,6 +38,7 @@ def analyze_spec(spec):
                     'responses': operation.get('responses', {}),
                     'consumes': consumes
                 })
+
     return operations
 
 
@@ -334,6 +335,8 @@ def main():
 
     openapi_spec = prance.ResolvingParser(openapi_spec_file).specification
     operations = analyze_spec(openapi_spec)
+
+    print(f"Total operations found in " + openapi_spec_file + f" is {len(operations)}.")
 
     all_test_cases = []
     all_test_results = []

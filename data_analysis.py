@@ -5,9 +5,9 @@ from collections import Counter
 from datetime import datetime
 
 
-def analyze_test_results(file_path):
+def analyze_test_results(path):
     # Read the JSON file
-    with open(file_path, 'r') as file:
+    with open(path, 'r') as file:
         data = json.load(file)
 
     # Initialize counters

@@ -1,1987 +1,1580 @@
 [
     {
-        "test_name": "Update pet with valid data",
-        "passed": true,
+        "test_name": "Get customer without name parameter",
+        "passed": false,
         "expected_status": 200,
-        "actual_status": 200,
-        "expected_body": {},
-        "actual_body": null
+        "actual_status": 401,
+        "expected_body": {
+            "_links": {
+                "empty": true
+            },
+            "address": "",
+            "email": "",
+            "name": "",
+            "password": "",
+            "phone": ""
+        },
+        "actual_body": {
+            "timestamp": "2024-09-16T22:24:34.951+00:00",
+            "status": 401,
+            "error": "Unauthorized",
+            "message": "Unauthorized",
+            "path": "/customer"
+        }
     },
     {
-        "test_name": "Update pet with missing name",
+        "test_name": "Get customer with valid name parameter",
         "passed": false,
-        "expected_status": 405,
-        "actual_status": 400,
+        "expected_status": 200,
+        "actual_status": 401,
+        "expected_body": {
+            "_links": {
+                "empty": false
+            },
+            "address": "123 Main St",
+            "email": "john.doe@example.com",
+            "name": "John Doe",
+            "password": "securePass1",
+            "phone": "+123 456 789 00 11"
+        },
+        "actual_body": {
+            "timestamp": "2024-09-16T22:24:35.092+00:00",
+            "status": 401,
+            "error": "Unauthorized",
+            "message": "Unauthorized",
+            "path": "/customer"
+        }
+    },
+    {
+        "test_name": "Get customer with invalid name parameter",
+        "passed": false,
+        "expected_status": 404,
+        "actual_status": 401,
         "expected_body": {},
         "actual_body": {
-            "timestamp": "2024-09-11T22:14:32.401Z",
-            "status": 400,
-            "error": "Bad Request",
-            "errors": [
+            "timestamp": "2024-09-16T22:24:35.101+00:00",
+            "status": 401,
+            "error": "Unauthorized",
+            "message": "Unauthorized",
+            "path": "/customer"
+        }
+    },
+    {
+        "test_name": "Get cart with no query parameters",
+        "passed": false,
+        "expected_status": 200,
+        "actual_status": 401,
+        "expected_body": {
+            "_links": {
+                "empty": false
+            },
+            "cartItems": [],
+            "deliveryCost": 0,
+            "deliveryIncluded": false,
+            "empty": true,
+            "productsCost": 0.0,
+            "totalCost": 0.0,
+            "totalItems": 0,
+            "user": ""
+        },
+        "actual_body": {
+            "message": "Access is denied",
+            "description": "uri=/customer/cart",
+            "entityName": null,
+            "fieldErrors": []
+        }
+    },
+    {
+        "test_name": "Get cart with a specific user name",
+        "passed": false,
+        "expected_status": 200,
+        "actual_status": 401,
+        "expected_body": {
+            "_links": {
+                "empty": false
+            },
+            "cartItems": [
                 {
-                    "codes": [
-                        "NotNull.pet.name",
-                        "NotNull.name",
-                        "NotNull.java.lang.String",
-                        "NotNull"
-                    ],
-                    "arguments": [
-                        {
-                            "codes": [
-                                "pet.name",
-                                "name"
-                            ],
-                            "arguments": null,
-                            "defaultMessage": "name",
-                            "code": "name"
-                        }
-                    ],
-                    "defaultMessage": "must not be null",
-                    "objectName": "pet",
-                    "field": "name",
-                    "rejectedValue": null,
-                    "bindingFailure": false,
-                    "code": "NotNull"
+                    "_links": {
+                        "empty": false
+                    },
+                    "productId": 1,
+                    "quantity": 2
                 }
             ],
-            "message": "Validation failed for object='pet'. Error count: 1",
-            "path": "/v3/pet"
+            "deliveryCost": 5,
+            "deliveryIncluded": true,
+            "empty": false,
+            "productsCost": 50.0,
+            "totalCost": 55.0,
+            "totalItems": 1,
+            "user": "JohnDoe"
+        },
+        "actual_body": {
+            "message": "Access is denied",
+            "description": "uri=/customer/cart",
+            "entityName": null,
+            "fieldErrors": []
         }
     },
     {
-        "test_name": "Update pet with invalid ID",
-        "passed": false,
-        "expected_status": 400,
-        "actual_status": 200,
-        "expected_body": {},
-        "actual_body": null
-    },
-    {
-        "test_name": "Add valid pet",
+        "test_name": "Get cart unauthorized access",
         "passed": true,
-        "expected_status": 200,
-        "actual_status": 200,
-        "expected_body": {},
-        "actual_body": null
-    },
-    {
-        "test_name": "Add pet missing name",
-        "passed": false,
-        "expected_status": 405,
-        "actual_status": 400,
+        "expected_status": 401,
+        "actual_status": 401,
         "expected_body": {},
         "actual_body": {
-            "timestamp": "2024-09-11T22:14:36.763Z",
-            "status": 400,
-            "error": "Bad Request",
-            "errors": [
+            "message": "Access is denied",
+            "description": "uri=/customer/cart",
+            "entityName": null,
+            "fieldErrors": []
+        }
+    },
+    {
+        "test_name": "Add item to cart successfully",
+        "passed": false,
+        "expected_status": 200,
+        "actual_status": 500,
+        "expected_body": {
+            "totalItems": 1,
+            "totalCost": 29.99,
+            "cartItems": [
                 {
-                    "codes": [
-                        "NotNull.pet.name",
-                        "NotNull.name",
-                        "NotNull.java.lang.String",
-                        "NotNull"
-                    ],
-                    "arguments": [
-                        {
-                            "codes": [
-                                "pet.name",
-                                "name"
-                            ],
-                            "arguments": null,
-                            "defaultMessage": "name",
-                            "code": "name"
-                        }
-                    ],
-                    "defaultMessage": "must not be null",
-                    "objectName": "pet",
-                    "field": "name",
-                    "rejectedValue": null,
-                    "bindingFailure": false,
-                    "code": "NotNull"
+                    "productId": 123,
+                    "quantity": 2
                 }
-            ],
-            "message": "Validation failed for object='pet'. Error count: 1",
-            "path": "/v3/pet"
-        }
-    },
-    {
-        "test_name": "Add pet with invalid status",
-        "passed": false,
-        "expected_status": 405,
-        "actual_status": 200,
-        "expected_body": {},
-        "actual_body": null
-    },
-    {
-        "test_name": "Find pets by available status",
-        "passed": false,
-        "error": "Expecting value: line 1 column 1 (char 0)"
-    },
-    {
-        "test_name": "Find pets by pending status",
-        "passed": false,
-        "error": "Expecting value: line 1 column 1 (char 0)"
-    },
-    {
-        "test_name": "Find pets by sold status",
-        "passed": false,
-        "error": "Expecting value: line 1 column 1 (char 0)"
-    },
-    {
-        "test_name": "Invalid status value",
-        "passed": false,
-        "error": "Expecting value: line 1 column 1 (char 0)"
-    },
-    {
-        "test_name": "Fetch pets with valid tags",
-        "passed": false,
-        "error": "Expecting value: line 1 column 1 (char 0)"
-    },
-    {
-        "test_name": "Fetch pets with empty tags",
-        "passed": false,
-        "error": "Expecting value: line 1 column 1 (char 0)"
-    },
-    {
-        "test_name": "Fetch pets with invalid tag value",
-        "passed": false,
-        "error": "Expecting value: line 1 column 1 (char 0)"
-    },
-    {
-        "test_name": "Get pet by valid ID",
-        "passed": false,
-        "error": "Expecting value: line 1 column 1 (char 0)"
-    },
-    {
-        "test_name": "Get pet by invalid ID",
-        "passed": false,
-        "error": "Expecting value: line 1 column 1 (char 0)"
-    },
-    {
-        "test_name": "Get pet by negative ID",
-        "passed": false,
-        "error": "Expecting value: line 1 column 1 (char 0)"
-    },
-    {
-        "test_name": "Update pet with valid data",
-        "passed": true,
-        "expected_status": 200,
-        "actual_status": 200,
-        "expected_body": {
-            "message": "Pet updated successfully"
-        },
-        "actual_body": null
-    },
-    {
-        "test_name": "Update pet with missing name",
-        "passed": false,
-        "expected_status": 405,
-        "actual_status": 200,
-        "expected_body": {
-            "error": "Invalid input"
-        },
-        "actual_body": null
-    },
-    {
-        "test_name": "Update pet with invalid petId",
-        "passed": false,
-        "expected_status": 405,
-        "actual_status": 400,
-        "expected_body": {
-            "error": "Invalid input"
+            ]
         },
         "actual_body": {
-            "timestamp": "2024-09-11T22:14:51.687Z",
-            "status": 400,
-            "error": "Bad Request",
-            "message": "Failed to convert value of type 'java.lang.String' to required type 'java.lang.Long'; nested exception is java.lang.NumberFormatException: For input string: \"abc\"",
-            "path": "/v3/pet/abc"
+            "message": "JSON parse error: Expected relation name; nested exception is com.fasterxml.jackson.databind.JsonMappingException: Expected relation name\n at [Source: (PushbackInputStream); line: 1, column: 35] (through reference chain: market.dto.CartItemDTO[\"_links\"])",
+            "description": "uri=/customer/cart",
+            "entityName": null,
+            "fieldErrors": []
         }
     },
     {
-        "test_name": "Delete pet with valid petId",
-        "passed": true,
-        "expected_status": 200,
-        "actual_status": 200,
+        "test_name": "Unauthorized access when adding item to cart",
+        "passed": false,
+        "expected_status": 401,
+        "actual_status": 500,
         "expected_body": {},
-        "actual_body": null
-    },
-    {
-        "test_name": "Delete pet with invalid petId",
-        "passed": true,
-        "expected_status": 400,
-        "actual_status": 400,
-        "expected_body": {
-            "error": "Invalid pet value"
-        },
         "actual_body": {
-            "timestamp": "2024-09-11T22:14:54.034Z",
-            "status": 400,
-            "error": "Bad Request",
-            "message": "Failed to convert value of type 'java.lang.String' to required type 'java.lang.Long'; nested exception is java.lang.NumberFormatException: For input string: \"abc\"",
-            "path": "/v3/pet/abc"
+            "message": "JSON parse error: Expected relation name; nested exception is com.fasterxml.jackson.databind.JsonMappingException: Expected relation name\n at [Source: (PushbackInputStream); line: 1, column: 14] (through reference chain: market.dto.CartItemDTO[\"_links\"])",
+            "description": "uri=/customer/cart",
+            "entityName": null,
+            "fieldErrors": []
         }
     },
     {
-        "test_name": "Delete pet without petId",
+        "test_name": "Add item to cart with invalid product ID",
         "passed": false,
         "expected_status": 404,
-        "actual_status": 405,
-        "expected_body": {
-            "error": "Pet not found"
-        },
+        "actual_status": 500,
+        "expected_body": {},
         "actual_body": {
-            "timestamp": "2024-09-11T22:14:54.051Z",
-            "status": 405,
-            "error": "Method Not Allowed",
-            "message": "Request method 'DELETE' not supported",
-            "path": "/v3/pet/"
+            "message": "JSON parse error: Expected relation name; nested exception is com.fasterxml.jackson.databind.JsonMappingException: Expected relation name\n at [Source: (PushbackInputStream); line: 1, column: 14] (through reference chain: market.dto.CartItemDTO[\"_links\"])",
+            "description": "uri=/customer/cart",
+            "entityName": null,
+            "fieldErrors": []
         }
     },
     {
-        "test_name": "Upload image with valid petId and file",
+        "test_name": "Clear cart successfully without parameters",
+        "passed": false,
+        "expected_status": 200,
+        "actual_status": 401,
+        "expected_body": {
+            "empty": true,
+            "totalItems": 0,
+            "cartItems": [],
+            "deliveryCost": 0,
+            "deliveryIncluded": false,
+            "productsCost": 0,
+            "totalCost": 0,
+            "user": "",
+            "_links": {
+                "empty": true
+            }
+        },
+        "actual_body": {
+            "message": "Access is denied",
+            "description": "uri=/customer/cart",
+            "entityName": null,
+            "fieldErrors": []
+        }
+    },
+    {
+        "test_name": "Clear cart with user parameter",
+        "passed": false,
+        "expected_status": 200,
+        "actual_status": 401,
+        "expected_body": {
+            "empty": true,
+            "totalItems": 0,
+            "cartItems": [],
+            "deliveryCost": 0,
+            "deliveryIncluded": false,
+            "productsCost": 0,
+            "totalCost": 0,
+            "user": "testUser",
+            "_links": {
+                "empty": true
+            }
+        },
+        "actual_body": {
+            "message": "Access is denied",
+            "description": "uri=/customer/cart",
+            "entityName": null,
+            "fieldErrors": []
+        }
+    },
+    {
+        "test_name": "Clear cart and expect no content response",
+        "passed": false,
+        "expected_status": 204,
+        "actual_status": 401,
+        "expected_body": {},
+        "actual_body": {
+            "message": "Access is denied",
+            "description": "uri=/customer/cart",
+            "entityName": null,
+            "fieldErrors": []
+        }
+    },
+    {
+        "test_name": "Set delivery with included true",
         "passed": false,
         "expected_status": 200,
         "actual_status": 500,
         "expected_body": {
-            "code": 0,
-            "type": "type",
-            "message": "message"
+            "deliveryIncluded": true,
+            "totalCost": 50.0,
+            "empty": false,
+            "totalItems": 3,
+            "user": "test_user"
         },
         "actual_body": {
-            "timestamp": "2024-09-11T22:14:57.078Z",
-            "status": 500,
-            "error": "Internal Server Error",
-            "message": "Failed to parse multipart servlet request; nested exception is java.io.IOException: org.apache.tomcat.util.http.fileupload.FileUploadException: the request was rejected because no multipart boundary was found",
-            "path": "/v3/pet/1/uploadImage"
+            "message": "Required boolean parameter 'included' is not present",
+            "description": "uri=/customer/cart/delivery",
+            "entityName": null,
+            "fieldErrors": []
         }
     },
     {
-        "test_name": "Upload image with missing petId",
-        "passed": false,
-        "expected_status": 400,
-        "actual_status": 500,
-        "expected_body": {
-            "code": 400,
-            "type": "error",
-            "message": "petId is required"
-        },
-        "actual_body": {
-            "timestamp": "2024-09-11T22:14:57.093Z",
-            "status": 500,
-            "error": "Internal Server Error",
-            "message": "The request was rejected because the URL was not normalized.",
-            "path": "/v3/pet//uploadImage"
-        }
-    },
-    {
-        "test_name": "Upload image without file",
-        "passed": false,
-        "expected_status": 400,
-        "actual_status": 500,
-        "expected_body": {
-            "code": 400,
-            "type": "error",
-            "message": "file is required"
-        },
-        "actual_body": {
-            "timestamp": "2024-09-11T22:14:57.107Z",
-            "status": 500,
-            "error": "Internal Server Error",
-            "message": "Failed to parse multipart servlet request; nested exception is java.io.IOException: org.apache.tomcat.util.http.fileupload.FileUploadException: the request was rejected because no multipart boundary was found",
-            "path": "/v3/pet/1/uploadImage"
-        }
-    },
-    {
-        "test_name": "Get inventory successfully",
+        "test_name": "Set delivery with included false",
         "passed": false,
         "expected_status": 200,
         "actual_status": 500,
-        "expected_body": {},
+        "expected_body": {
+            "deliveryIncluded": false,
+            "totalCost": 30.0,
+            "empty": false,
+            "totalItems": 2,
+            "user": "test_user"
+        },
         "actual_body": {
-            "timestamp": "2024-09-11T22:15:00.939Z",
-            "status": 500,
-            "error": "Internal Server Error",
-            "message": "No message available",
-            "path": "/v3/store/inventory"
+            "message": "Required boolean parameter 'included' is not present",
+            "description": "uri=/customer/cart/delivery",
+            "entityName": null,
+            "fieldErrors": []
         }
     },
     {
-        "test_name": "Get inventory with no items",
+        "test_name": "Unauthorized access",
         "passed": false,
-        "expected_status": 200,
+        "expected_status": 401,
         "actual_status": 500,
         "expected_body": {},
         "actual_body": {
-            "timestamp": "2024-09-11T22:15:00.953Z",
-            "status": 500,
-            "error": "Internal Server Error",
-            "message": "No message available",
-            "path": "/v3/store/inventory"
+            "message": "Required boolean parameter 'included' is not present",
+            "description": "uri=/customer/cart/delivery",
+            "entityName": null,
+            "fieldErrors": []
         }
     },
     {
-        "test_name": "Get inventory with valid headers",
+        "test_name": "Successful payment with valid card number",
         "passed": false,
-        "expected_status": 200,
-        "actual_status": 500,
-        "expected_body": {},
-        "actual_body": {
-            "timestamp": "2024-09-11T22:15:00.967Z",
-            "status": 500,
-            "error": "Internal Server Error",
-            "message": "No message available",
-            "path": "/v3/store/inventory"
-        }
-    },
-    {
-        "test_name": "Place Order with Valid Data",
-        "passed": false,
-        "error": "Expecting value: line 1 column 1 (char 0)"
-    },
-    {
-        "test_name": "Place Order with Missing Pet ID",
-        "passed": false,
-        "error": "Expecting value: line 1 column 1 (char 0)"
-    },
-    {
-        "test_name": "Place Order with Invalid Status",
-        "passed": false,
-        "error": "Expecting value: line 1 column 1 (char 0)"
-    },
-    {
-        "test_name": "Valid order ID",
-        "passed": false,
-        "error": "Expecting value: line 1 column 1 (char 0)"
-    },
-    {
-        "test_name": "Invalid order ID - too low",
-        "passed": false,
-        "error": "Expecting value: line 1 column 1 (char 0)"
-    },
-    {
-        "test_name": "Invalid order ID - too high",
-        "passed": false,
-        "error": "Expecting value: line 1 column 1 (char 0)"
-    },
-    {
-        "test_name": "Delete order with valid ID",
-        "passed": false,
-        "expected_status": 200,
-        "actual_status": 404,
-        "expected_body": {},
-        "actual_body": {
-            "timestamp": "2024-09-11T22:15:13.523Z",
-            "status": 404,
-            "error": "Not Found",
-            "message": "Response status 404",
-            "path": "/v3/store/order/12345"
-        }
-    },
-    {
-        "test_name": "Delete order with invalid ID",
-        "passed": false,
-        "expected_status": 400,
-        "actual_status": 500,
+        "expected_status": 201,
+        "actual_status": 406,
         "expected_body": {
-            "error": "Invalid ID supplied"
+            "billNumber": 123456,
+            "dateCreated": "2023-10-01T12:00:00Z",
+            "deliveryCost": 5,
+            "deliveryIncluded": true,
+            "executed": true,
+            "id": 1,
+            "payed": true,
+            "productsCost": 50.0,
+            "totalCost": 55.0,
+            "userAccount": "user@example.com",
+            "_links": {
+                "empty": false
+            }
         },
         "actual_body": {
-            "timestamp": "2024-09-11T22:15:13.537Z",
-            "status": 500,
-            "error": "Internal Server Error",
-            "message": "For input string: \"invalid_id\"",
-            "path": "/v3/store/order/invalid_id"
-        }
-    },
-    {
-        "test_name": "Delete non-existing order",
-        "passed": true,
-        "expected_status": 404,
-        "actual_status": 404,
-        "expected_body": {
-            "error": "Order not found"
-        },
-        "actual_body": {
-            "timestamp": "2024-09-11T22:15:13.550Z",
-            "status": 404,
-            "error": "Not Found",
-            "message": "Response status 404",
-            "path": "/v3/store/order/99999"
-        }
-    },
-    {
-        "test_name": "Create user with all valid fields",
-        "passed": true,
-        "expected_status": 200,
-        "actual_status": 200,
-        "expected_body": {},
-        "actual_body": null
-    },
-    {
-        "test_name": "Create user with missing required fields",
-        "passed": false,
-        "expected_status": 400,
-        "actual_status": 200,
-        "expected_body": {
-            "error": "Missing required fields"
-        },
-        "actual_body": null
-    },
-    {
-        "test_name": "Create user with invalid email format",
-        "passed": false,
-        "expected_status": 400,
-        "actual_status": 200,
-        "expected_body": {
-            "error": "Invalid email format"
-        },
-        "actual_body": null
-    },
-    {
-        "test_name": "Create users with valid data",
-        "passed": false,
-        "expected_status": 200,
-        "actual_status": 400,
-        "expected_body": {},
-        "actual_body": {
-            "timestamp": "2024-09-11T22:15:20.447Z",
-            "status": 400,
-            "error": "Bad Request",
-            "message": "JSON parse error: Cannot deserialize instance of `java.util.ArrayList` out of START_OBJECT token; nested exception is com.fasterxml.jackson.databind.exc.MismatchedInputException: Cannot deserialize instance of `java.util.ArrayList` out of START_OBJECT token\n at [Source: (PushbackInputStream); line: 1, column: 1]",
-            "path": "/v3/user/createWithArray"
-        }
-    },
-    {
-        "test_name": "Create users with missing required fields",
-        "passed": true,
-        "expected_status": 400,
-        "actual_status": 400,
-        "expected_body": {
-            "error": "Missing required fields"
-        },
-        "actual_body": {
-            "timestamp": "2024-09-11T22:15:20.458Z",
-            "status": 400,
-            "error": "Bad Request",
-            "message": "JSON parse error: Cannot deserialize instance of `java.util.ArrayList` out of START_OBJECT token; nested exception is com.fasterxml.jackson.databind.exc.MismatchedInputException: Cannot deserialize instance of `java.util.ArrayList` out of START_OBJECT token\n at [Source: (PushbackInputStream); line: 1, column: 1]",
-            "path": "/v3/user/createWithArray"
-        }
-    },
-    {
-        "test_name": "Create users with invalid email format",
-        "passed": true,
-        "expected_status": 400,
-        "actual_status": 400,
-        "expected_body": {
-            "error": "Invalid email format"
-        },
-        "actual_body": {
-            "timestamp": "2024-09-11T22:15:20.469Z",
-            "status": 400,
-            "error": "Bad Request",
-            "message": "JSON parse error: Cannot deserialize instance of `java.util.ArrayList` out of START_OBJECT token; nested exception is com.fasterxml.jackson.databind.exc.MismatchedInputException: Cannot deserialize instance of `java.util.ArrayList` out of START_OBJECT token\n at [Source: (PushbackInputStream); line: 1, column: 1]",
-            "path": "/v3/user/createWithArray"
-        }
-    },
-    {
-        "test_name": "Create users with valid data",
-        "passed": false,
-        "expected_status": 200,
-        "actual_status": 400,
-        "expected_body": {},
-        "actual_body": {
-            "timestamp": "2024-09-11T22:15:50.953Z",
-            "status": 400,
-            "error": "Bad Request",
-            "message": "JSON parse error: Cannot deserialize instance of `java.util.ArrayList` out of START_OBJECT token; nested exception is com.fasterxml.jackson.databind.exc.MismatchedInputException: Cannot deserialize instance of `java.util.ArrayList` out of START_OBJECT token\n at [Source: (PushbackInputStream); line: 1, column: 1]",
-            "path": "/v3/user/createWithList"
-        }
-    },
-    {
-        "test_name": "Create users with missing required fields",
-        "passed": true,
-        "expected_status": 400,
-        "actual_status": 400,
-        "expected_body": {
-            "error": "First name is required"
-        },
-        "actual_body": {
-            "timestamp": "2024-09-11T22:15:50.967Z",
-            "status": 400,
-            "error": "Bad Request",
-            "message": "JSON parse error: Cannot deserialize instance of `java.util.ArrayList` out of START_OBJECT token; nested exception is com.fasterxml.jackson.databind.exc.MismatchedInputException: Cannot deserialize instance of `java.util.ArrayList` out of START_OBJECT token\n at [Source: (PushbackInputStream); line: 1, column: 1]",
-            "path": "/v3/user/createWithList"
-        }
-    },
-    {
-        "test_name": "Create users with invalid email format",
-        "passed": true,
-        "expected_status": 400,
-        "actual_status": 400,
-        "expected_body": {
-            "error": "Invalid email format"
-        },
-        "actual_body": {
-            "timestamp": "2024-09-11T22:15:50.980Z",
-            "status": 400,
-            "error": "Bad Request",
-            "message": "JSON parse error: Cannot deserialize instance of `java.util.ArrayList` out of START_OBJECT token; nested exception is com.fasterxml.jackson.databind.exc.MismatchedInputException: Cannot deserialize instance of `java.util.ArrayList` out of START_OBJECT token\n at [Source: (PushbackInputStream); line: 1, column: 1]",
-            "path": "/v3/user/createWithList"
-        }
-    },
-    {
-        "test_name": "Successful login with valid credentials",
-        "passed": false,
-        "error": "Expecting value: line 1 column 1 (char 0)"
-    },
-    {
-        "test_name": "Login attempt with invalid username",
-        "passed": false,
-        "error": "Expecting value: line 1 column 1 (char 0)"
-    },
-    {
-        "test_name": "Login attempt with missing password",
-        "passed": false,
-        "error": "Expecting value: line 1 column 1 (char 0)"
-    },
-    {
-        "test_name": "Successful logout",
-        "passed": true,
-        "expected_status": 200,
-        "actual_status": 200,
-        "expected_body": {
-            "message": "successful operation"
-        },
-        "actual_body": null
-    },
-    {
-        "test_name": "Logout without session",
-        "passed": true,
-        "expected_status": 200,
-        "actual_status": 200,
-        "expected_body": {
-            "message": "successful operation"
-        },
-        "actual_body": null
-    },
-    {
-        "test_name": "Logout while already logged out",
-        "passed": true,
-        "expected_status": 200,
-        "actual_status": 200,
-        "expected_body": {
-            "message": "successful operation"
-        },
-        "actual_body": null
-    },
-    {
-        "test_name": "Get user with valid username",
-        "passed": false,
-        "error": "Expecting value: line 1 column 1 (char 0)"
-    },
-    {
-        "test_name": "Get user with invalid username",
-        "passed": false,
-        "error": "Expecting value: line 1 column 1 (char 0)"
-    },
-    {
-        "test_name": "Get user with missing username parameter",
-        "passed": false,
-        "expected_status": 400,
-        "actual_status": 405,
-        "expected_body": {},
-        "actual_body": {
-            "timestamp": "2024-09-11T22:16:00.357Z",
-            "status": 405,
-            "error": "Method Not Allowed",
-            "message": "Request method 'GET' not supported",
-            "path": "/v3/user/"
-        }
-    },
-    {
-        "test_name": "Update user with valid data",
-        "passed": true,
-        "expected_status": 200,
-        "actual_status": 200,
-        "expected_body": {
-            "message": "User updated successfully"
-        },
-        "actual_body": null
-    },
-    {
-        "test_name": "Update user with missing required fields",
-        "passed": false,
-        "expected_status": 400,
-        "actual_status": 200,
-        "expected_body": {
-            "error": "Invalid user supplied"
-        },
-        "actual_body": null
-    },
-    {
-        "test_name": "Update non-existent user",
-        "passed": false,
-        "expected_status": 404,
-        "actual_status": 200,
-        "expected_body": {
-            "error": "User not found"
-        },
-        "actual_body": null
-    },
-    {
-        "test_name": "Delete user with valid username",
-        "passed": true,
-        "expected_status": 200,
-        "actual_status": 200,
-        "expected_body": {},
-        "actual_body": null
-    },
-    {
-        "test_name": "Delete user with invalid username format",
-        "passed": false,
-        "expected_status": 400,
-        "actual_status": 404,
-        "expected_body": {
-            "error": "Invalid username supplied"
-        },
-        "actual_body": {
-            "timestamp": "2024-09-11T22:16:08.243Z",
-            "status": 404,
-            "error": "Not Found",
-            "message": "Response status 404",
-            "path": "/v3/user/1234"
-        }
-    },
-    {
-        "test_name": "Delete non-existent user",
-        "passed": false,
-        "expected_status": 404,
-        "actual_status": 200,
-        "expected_body": {
-            "error": "User not found"
-        },
-        "actual_body": null
-    },
-    {
-        "test_name": "Update pet with valid data",
-        "passed": true,
-        "expected_status": 200,
-        "actual_status": 200,
-        "expected_body": {},
-        "actual_body": null
-    },
-    {
-        "test_name": "Update pet with missing name",
-        "passed": false,
-        "expected_status": 405,
-        "actual_status": 400,
-        "expected_body": {},
-        "actual_body": {
-            "timestamp": "2024-09-11T22:16:11.548Z",
-            "status": 400,
-            "error": "Bad Request",
-            "errors": [
+            "message": "Argument validation error",
+            "description": "uri=/customer/cart/pay",
+            "entityName": "creditCardDTO",
+            "fieldErrors": [
                 {
-                    "codes": [
-                        "NotNull.pet.name",
-                        "NotNull.name",
-                        "NotNull.java.lang.String",
-                        "NotNull"
-                    ],
-                    "arguments": [
-                        {
-                            "codes": [
-                                "pet.name",
-                                "name"
-                            ],
-                            "arguments": null,
-                            "defaultMessage": "name",
-                            "code": "name"
-                        }
-                    ],
-                    "defaultMessage": "must not be null",
-                    "objectName": "pet",
-                    "field": "name",
-                    "rejectedValue": null,
-                    "bindingFailure": false,
-                    "code": "NotNull"
+                    "field": "ccNumber",
+                    "message": "The value shall not be empty"
                 }
-            ],
-            "message": "Validation failed for object='pet'. Error count: 1",
-            "path": "/v3/pet"
+            ]
         }
     },
     {
-        "test_name": "Update pet with invalid status",
+        "test_name": "Unauthorized access without valid token",
         "passed": false,
-        "expected_status": 405,
-        "actual_status": 200,
+        "expected_status": 401,
+        "actual_status": 406,
         "expected_body": {},
-        "actual_body": null
-    },
-    {
-        "test_name": "Add valid pet",
-        "passed": true,
-        "expected_status": 200,
-        "actual_status": 200,
-        "expected_body": {
-            "message": "Pet added successfully"
-        },
-        "actual_body": null
-    },
-    {
-        "test_name": "Add pet with missing name",
-        "passed": false,
-        "expected_status": 405,
-        "actual_status": 400,
-        "expected_body": {
-            "message": "Invalid input"
-        },
         "actual_body": {
-            "timestamp": "2024-09-11T22:16:16.609Z",
-            "status": 400,
-            "error": "Bad Request",
-            "errors": [
+            "message": "Argument validation error",
+            "description": "uri=/customer/cart/pay",
+            "entityName": "creditCardDTO",
+            "fieldErrors": [
                 {
-                    "codes": [
-                        "NotNull.pet.name",
-                        "NotNull.name",
-                        "NotNull.java.lang.String",
-                        "NotNull"
-                    ],
-                    "arguments": [
-                        {
-                            "codes": [
-                                "pet.name",
-                                "name"
-                            ],
-                            "arguments": null,
-                            "defaultMessage": "name",
-                            "code": "name"
-                        }
-                    ],
-                    "defaultMessage": "must not be null",
-                    "objectName": "pet",
-                    "field": "name",
-                    "rejectedValue": null,
-                    "bindingFailure": false,
-                    "code": "NotNull"
+                    "field": "ccNumber",
+                    "message": "The value shall not be empty"
                 }
-            ],
-            "message": "Validation failed for object='pet'. Error count: 1",
-            "path": "/v3/pet"
+            ]
         }
     },
     {
-        "test_name": "Add pet with invalid status",
+        "test_name": "Payment with invalid card number format",
         "passed": false,
-        "expected_status": 405,
-        "actual_status": 200,
-        "expected_body": {
-            "message": "Invalid input"
-        },
-        "actual_body": null
-    },
-    {
-        "test_name": "Get pets by available status",
-        "passed": false,
-        "error": "Expecting value: line 1 column 1 (char 0)"
-    },
-    {
-        "test_name": "Get pets by pending status",
-        "passed": false,
-        "error": "Expecting value: line 1 column 1 (char 0)"
-    },
-    {
-        "test_name": "Get pets by sold status",
-        "passed": false,
-        "error": "Expecting value: line 1 column 1 (char 0)"
-    },
-    {
-        "test_name": "Invalid status value",
-        "passed": false,
-        "error": "Expecting value: line 1 column 1 (char 0)"
-    },
-    {
-        "test_name": "Get pets by a single valid tag",
-        "passed": false,
-        "error": "Expecting value: line 1 column 1 (char 0)"
-    },
-    {
-        "test_name": "Get pets by multiple valid tags",
-        "passed": false,
-        "error": "Expecting value: line 1 column 1 (char 0)"
-    },
-    {
-        "test_name": "Get pets with invalid tag",
-        "passed": false,
-        "error": "Expecting value: line 1 column 1 (char 0)"
-    },
-    {
-        "test_name": "Get pet by valid ID",
-        "passed": false,
-        "error": "Expecting value: line 1 column 1 (char 0)"
-    },
-    {
-        "test_name": "Get pet by ID that does not exist",
-        "passed": false,
-        "error": "Expecting value: line 1 column 1 (char 0)"
-    },
-    {
-        "test_name": "Get pet with invalid ID format",
-        "passed": false,
-        "error": "Expecting value: line 1 column 1 (char 0)"
-    },
-    {
-        "test_name": "Update pet with valid data",
-        "passed": true,
-        "expected_status": 200,
-        "actual_status": 200,
-        "expected_body": {
-            "message": "Pet updated successfully"
-        },
-        "actual_body": null
-    },
-    {
-        "test_name": "Update pet with missing name",
-        "passed": false,
-        "expected_status": 405,
-        "actual_status": 200,
-        "expected_body": {
-            "error": "Invalid input"
-        },
-        "actual_body": null
-    },
-    {
-        "test_name": "Update pet with invalid petId",
-        "passed": false,
-        "expected_status": 405,
-        "actual_status": 400,
-        "expected_body": {
-            "error": "Invalid input"
-        },
-        "actual_body": {
-            "timestamp": "2024-09-11T22:16:30.976Z",
-            "status": 400,
-            "error": "Bad Request",
-            "message": "Failed to convert value of type 'java.lang.String' to required type 'java.lang.Long'; nested exception is java.lang.NumberFormatException: For input string: \"abc\"",
-            "path": "/v3/pet/abc"
-        }
-    },
-    {
-        "test_name": "Delete pet with valid petId",
-        "passed": true,
-        "expected_status": 200,
-        "actual_status": 200,
-        "expected_body": {},
-        "actual_body": null
-    },
-    {
-        "test_name": "Delete pet with invalid petId",
-        "passed": true,
-        "expected_status": 400,
-        "actual_status": 400,
-        "expected_body": {
-            "message": "Invalid pet value"
-        },
-        "actual_body": {
-            "timestamp": "2024-09-11T22:16:33.290Z",
-            "status": 400,
-            "error": "Bad Request",
-            "message": "Failed to convert value of type 'java.lang.String' to required type 'java.lang.Long'; nested exception is java.lang.NumberFormatException: For input string: \"invalidId\"",
-            "path": "/v3/pet/invalidId"
-        }
-    },
-    {
-        "test_name": "Delete pet without petId",
-        "passed": false,
-        "expected_status": 400,
-        "actual_status": 405,
-        "expected_body": {
-            "message": "Invalid pet value"
-        },
-        "actual_body": {
-            "timestamp": "2024-09-11T22:16:33.302Z",
-            "status": 405,
-            "error": "Method Not Allowed",
-            "message": "Request method 'DELETE' not supported",
-            "path": "/v3/pet/"
-        }
-    },
-    {
-        "test_name": "Upload image for existing pet",
-        "passed": false,
-        "expected_status": 200,
-        "actual_status": 500,
-        "expected_body": {
-            "code": 0,
-            "type": "image",
-            "message": "Image uploaded successfully"
-        },
-        "actual_body": {
-            "timestamp": "2024-09-11T22:16:36.191Z",
-            "status": 500,
-            "error": "Internal Server Error",
-            "message": "Failed to parse multipart servlet request; nested exception is java.io.IOException: org.apache.tomcat.util.http.fileupload.FileUploadException: the request was rejected because no multipart boundary was found",
-            "path": "/v3/pet/123/uploadImage"
-        }
-    },
-    {
-        "test_name": "Upload image without additional metadata",
-        "passed": false,
-        "expected_status": 200,
-        "actual_status": 500,
-        "expected_body": {
-            "code": 0,
-            "type": "image",
-            "message": "Image uploaded successfully"
-        },
-        "actual_body": {
-            "timestamp": "2024-09-11T22:16:36.203Z",
-            "status": 500,
-            "error": "Internal Server Error",
-            "message": "Failed to parse multipart servlet request; nested exception is java.io.IOException: org.apache.tomcat.util.http.fileupload.FileUploadException: the request was rejected because no multipart boundary was found",
-            "path": "/v3/pet/456/uploadImage"
-        }
-    },
-    {
-        "test_name": "Upload image for non-existent pet",
-        "passed": false,
-        "expected_status": 404,
-        "actual_status": 500,
-        "expected_body": {
-            "code": 1,
-            "type": "error",
-            "message": "Pet not found"
-        },
-        "actual_body": {
-            "timestamp": "2024-09-11T22:16:36.215Z",
-            "status": 500,
-            "error": "Internal Server Error",
-            "message": "Failed to parse multipart servlet request; nested exception is java.io.IOException: org.apache.tomcat.util.http.fileupload.FileUploadException: the request was rejected because no multipart boundary was found",
-            "path": "/v3/pet/999/uploadImage"
-        }
-    },
-    {
-        "test_name": "Valid Inventory Retrieval",
-        "passed": false,
-        "expected_status": 200,
-        "actual_status": 500,
+        "expected_status": 403,
+        "actual_status": 406,
         "expected_body": {},
         "actual_body": {
-            "timestamp": "2024-09-11T22:16:41.150Z",
-            "status": 500,
-            "error": "Internal Server Error",
-            "message": "No message available",
-            "path": "/v3/store/inventory"
-        }
-    },
-    {
-        "test_name": "Inventory Returns Non-empty Object",
-        "passed": false,
-        "expected_status": 200,
-        "actual_status": 500,
-        "expected_body": {
-            "item1": 10,
-            "item2": 5
-        },
-        "actual_body": {
-            "timestamp": "2024-09-11T22:16:41.165Z",
-            "status": 500,
-            "error": "Internal Server Error",
-            "message": "No message available",
-            "path": "/v3/store/inventory"
-        }
-    },
-    {
-        "test_name": "Inventory Returns Correct Data Types",
-        "passed": false,
-        "expected_status": 200,
-        "actual_status": 500,
-        "expected_body": {
-            "itemA": 15,
-            "itemB": 20
-        },
-        "actual_body": {
-            "timestamp": "2024-09-11T22:16:41.178Z",
-            "status": 500,
-            "error": "Internal Server Error",
-            "message": "No message available",
-            "path": "/v3/store/inventory"
-        }
-    },
-    {
-        "test_name": "Place order successfully",
-        "passed": false,
-        "error": "Expecting value: line 1 column 1 (char 0)"
-    },
-    {
-        "test_name": "Place order with missing petId",
-        "passed": false,
-        "error": "Expecting value: line 1 column 1 (char 0)"
-    },
-    {
-        "test_name": "Place order with invalid status",
-        "passed": false,
-        "error": "Expecting value: line 1 column 1 (char 0)"
-    },
-    {
-        "test_name": "Fetch existing order with valid ID",
-        "passed": false,
-        "error": "Expecting value: line 1 column 1 (char 0)"
-    },
-    {
-        "test_name": "Fetch order with minimum ID",
-        "passed": false,
-        "error": "Expecting value: line 1 column 1 (char 0)"
-    },
-    {
-        "test_name": "Fetch order with ID above maximum",
-        "passed": false,
-        "error": "Expecting value: line 1 column 1 (char 0)"
-    },
-    {
-        "test_name": "Fetch order with invalid ID",
-        "passed": false,
-        "error": "Expecting value: line 1 column 1 (char 0)"
-    },
-    {
-        "test_name": "Delete order with valid ID",
-        "passed": false,
-        "expected_status": 200,
-        "actual_status": 404,
-        "expected_body": {},
-        "actual_body": {
-            "timestamp": "2024-09-11T22:16:54.890Z",
-            "status": 404,
-            "error": "Not Found",
-            "message": "Response status 404",
-            "path": "/v3/store/order/12345"
-        }
-    },
-    {
-        "test_name": "Delete order with invalid ID format",
-        "passed": false,
-        "expected_status": 400,
-        "actual_status": 500,
-        "expected_body": {
-            "message": "Invalid ID supplied"
-        },
-        "actual_body": {
-            "timestamp": "2024-09-11T22:16:54.903Z",
-            "status": 500,
-            "error": "Internal Server Error",
-            "message": "For input string: \"invalid-id\"",
-            "path": "/v3/store/order/invalid-id"
-        }
-    },
-    {
-        "test_name": "Delete non-existent order",
-        "passed": true,
-        "expected_status": 404,
-        "actual_status": 404,
-        "expected_body": {
-            "message": "Order not found"
-        },
-        "actual_body": {
-            "timestamp": "2024-09-11T22:16:54.919Z",
-            "status": 404,
-            "error": "Not Found",
-            "message": "Response status 404",
-            "path": "/v3/store/order/99999"
-        }
-    },
-    {
-        "test_name": "Create user with valid data",
-        "passed": true,
-        "expected_status": 200,
-        "actual_status": 200,
-        "expected_body": {
-            "message": "User created successfully"
-        },
-        "actual_body": null
-    },
-    {
-        "test_name": "Create user with missing required fields",
-        "passed": false,
-        "expected_status": 400,
-        "actual_status": 200,
-        "expected_body": {
-            "error": "Missing required fields"
-        },
-        "actual_body": null
-    },
-    {
-        "test_name": "Create user with invalid email format",
-        "passed": false,
-        "expected_status": 400,
-        "actual_status": 200,
-        "expected_body": {
-            "error": "Invalid email format"
-        },
-        "actual_body": null
-    },
-    {
-        "test_name": "Create multiple users with valid data",
-        "passed": false,
-        "expected_status": 200,
-        "actual_status": 400,
-        "expected_body": {},
-        "actual_body": {
-            "timestamp": "2024-09-11T22:17:02.959Z",
-            "status": 400,
-            "error": "Bad Request",
-            "message": "JSON parse error: Cannot deserialize instance of `java.util.ArrayList` out of START_OBJECT token; nested exception is com.fasterxml.jackson.databind.exc.MismatchedInputException: Cannot deserialize instance of `java.util.ArrayList` out of START_OBJECT token\n at [Source: (PushbackInputStream); line: 1, column: 1]",
-            "path": "/v3/user/createWithArray"
-        }
-    },
-    {
-        "test_name": "Create users with missing required fields",
-        "passed": true,
-        "expected_status": 400,
-        "actual_status": 400,
-        "expected_body": {
-            "error": "Missing required fields"
-        },
-        "actual_body": {
-            "timestamp": "2024-09-11T22:17:02.970Z",
-            "status": 400,
-            "error": "Bad Request",
-            "message": "JSON parse error: Cannot deserialize instance of `java.util.ArrayList` out of START_OBJECT token; nested exception is com.fasterxml.jackson.databind.exc.MismatchedInputException: Cannot deserialize instance of `java.util.ArrayList` out of START_OBJECT token\n at [Source: (PushbackInputStream); line: 1, column: 1]",
-            "path": "/v3/user/createWithArray"
-        }
-    },
-    {
-        "test_name": "Create users with invalid email format",
-        "passed": true,
-        "expected_status": 400,
-        "actual_status": 400,
-        "expected_body": {
-            "error": "Invalid email format"
-        },
-        "actual_body": {
-            "timestamp": "2024-09-11T22:17:02.982Z",
-            "status": 400,
-            "error": "Bad Request",
-            "message": "JSON parse error: Cannot deserialize instance of `java.util.ArrayList` out of START_OBJECT token; nested exception is com.fasterxml.jackson.databind.exc.MismatchedInputException: Cannot deserialize instance of `java.util.ArrayList` out of START_OBJECT token\n at [Source: (PushbackInputStream); line: 1, column: 1]",
-            "path": "/v3/user/createWithArray"
-        }
-    },
-    {
-        "test_name": "Create users with valid user list",
-        "passed": false,
-        "expected_status": 200,
-        "actual_status": 400,
-        "expected_body": {},
-        "actual_body": {
-            "timestamp": "2024-09-11T22:17:13.462Z",
-            "status": 400,
-            "error": "Bad Request",
-            "message": "JSON parse error: Cannot deserialize instance of `java.util.ArrayList` out of START_OBJECT token; nested exception is com.fasterxml.jackson.databind.exc.MismatchedInputException: Cannot deserialize instance of `java.util.ArrayList` out of START_OBJECT token\n at [Source: (PushbackInputStream); line: 1, column: 1]",
-            "path": "/v3/user/createWithList"
-        }
-    },
-    {
-        "test_name": "Create users with missing email",
-        "passed": true,
-        "expected_status": 400,
-        "actual_status": 400,
-        "expected_body": {
-            "error": "Email is required"
-        },
-        "actual_body": {
-            "timestamp": "2024-09-11T22:17:13.475Z",
-            "status": 400,
-            "error": "Bad Request",
-            "message": "JSON parse error: Cannot deserialize instance of `java.util.ArrayList` out of START_OBJECT token; nested exception is com.fasterxml.jackson.databind.exc.MismatchedInputException: Cannot deserialize instance of `java.util.ArrayList` out of START_OBJECT token\n at [Source: (PushbackInputStream); line: 1, column: 1]",
-            "path": "/v3/user/createWithList"
-        }
-    },
-    {
-        "test_name": "Create users with invalid userStatus",
-        "passed": true,
-        "expected_status": 400,
-        "actual_status": 400,
-        "expected_body": {
-            "error": "Invalid user status"
-        },
-        "actual_body": {
-            "timestamp": "2024-09-11T22:17:13.495Z",
-            "status": 400,
-            "error": "Bad Request",
-            "message": "JSON parse error: Cannot deserialize instance of `java.util.ArrayList` out of START_OBJECT token; nested exception is com.fasterxml.jackson.databind.exc.MismatchedInputException: Cannot deserialize instance of `java.util.ArrayList` out of START_OBJECT token\n at [Source: (PushbackInputStream); line: 1, column: 1]",
-            "path": "/v3/user/createWithList"
-        }
-    },
-    {
-        "test_name": "Successful login with valid credentials",
-        "passed": false,
-        "error": "Expecting value: line 1 column 1 (char 0)"
-    },
-    {
-        "test_name": "Login failure with invalid username",
-        "passed": false,
-        "error": "Expecting value: line 1 column 1 (char 0)"
-    },
-    {
-        "test_name": "Login failure with empty password",
-        "passed": false,
-        "error": "Expecting value: line 1 column 1 (char 0)"
-    },
-    {
-        "test_name": "Successful Logout",
-        "passed": true,
-        "expected_status": 200,
-        "actual_status": 200,
-        "expected_body": {},
-        "actual_body": null
-    },
-    {
-        "test_name": "Logout Without Authorization",
-        "passed": true,
-        "expected_status": 200,
-        "actual_status": 200,
-        "expected_body": {},
-        "actual_body": null
-    },
-    {
-        "test_name": "Logout with Invalid Session",
-        "passed": true,
-        "expected_status": 200,
-        "actual_status": 200,
-        "expected_body": {},
-        "actual_body": null
-    },
-    {
-        "test_name": "Fetch user details for existing user",
-        "passed": false,
-        "error": "Expecting value: line 1 column 1 (char 0)"
-    },
-    {
-        "test_name": "Fetch user details for non-existing user",
-        "passed": false,
-        "error": "Expecting value: line 1 column 1 (char 0)"
-    },
-    {
-        "test_name": "Fetch user details with invalid username format",
-        "passed": false,
-        "error": "Expecting value: line 1 column 1 (char 0)"
-    },
-    {
-        "test_name": "Update user successfully",
-        "passed": true,
-        "expected_status": 200,
-        "actual_status": 200,
-        "expected_body": {
-            "message": "User updated successfully"
-        },
-        "actual_body": null
-    },
-    {
-        "test_name": "Invalid user supplied",
-        "passed": false,
-        "expected_status": 400,
-        "actual_status": 200,
-        "expected_body": {
-            "error": "Invalid user supplied"
-        },
-        "actual_body": null
-    },
-    {
-        "test_name": "User not found",
-        "passed": false,
-        "expected_status": 404,
-        "actual_status": 200,
-        "expected_body": {
-            "error": "User not found"
-        },
-        "actual_body": null
-    },
-    {
-        "test_name": "Delete user successfully",
-        "passed": true,
-        "expected_status": 200,
-        "actual_status": 200,
-        "expected_body": {},
-        "actual_body": null
-    },
-    {
-        "test_name": "Invalid username supplied",
-        "passed": false,
-        "expected_status": 400,
-        "actual_status": 405,
-        "expected_body": {},
-        "actual_body": {
-            "timestamp": "2024-09-11T22:17:30.058Z",
-            "status": 405,
-            "error": "Method Not Allowed",
-            "message": "Request method 'DELETE' not supported",
-            "path": "/v3/user/"
-        }
-    },
-    {
-        "test_name": "User not found",
-        "passed": false,
-        "expected_status": 404,
-        "actual_status": 200,
-        "expected_body": {},
-        "actual_body": null
-    },
-    {
-        "test_name": "Update Pet with valid data",
-        "passed": true,
-        "expected_status": 200,
-        "actual_status": 200,
-        "expected_body": {},
-        "actual_body": null
-    },
-    {
-        "test_name": "Update Pet with missing required fields",
-        "passed": false,
-        "expected_status": 405,
-        "actual_status": 400,
-        "expected_body": {},
-        "actual_body": {
-            "timestamp": "2024-09-11T22:17:33.635Z",
-            "status": 400,
-            "error": "Bad Request",
-            "errors": [
+            "message": "Argument validation error",
+            "description": "uri=/customer/cart/pay",
+            "entityName": "creditCardDTO",
+            "fieldErrors": [
                 {
-                    "codes": [
-                        "NotNull.pet.name",
-                        "NotNull.name",
-                        "NotNull.java.lang.String",
-                        "NotNull"
-                    ],
-                    "arguments": [
-                        {
-                            "codes": [
-                                "pet.name",
-                                "name"
-                            ],
-                            "arguments": null,
-                            "defaultMessage": "name",
-                            "code": "name"
-                        }
-                    ],
-                    "defaultMessage": "must not be null",
-                    "objectName": "pet",
-                    "field": "name",
-                    "rejectedValue": null,
-                    "bindingFailure": false,
-                    "code": "NotNull"
+                    "field": "ccNumber",
+                    "message": "The value shall not be empty"
                 }
-            ],
-            "message": "Validation failed for object='pet'. Error count: 1",
-            "path": "/v3/pet"
+            ]
         }
     },
     {
-        "test_name": "Update Pet with invalid ID",
+        "test_name": "Get all contacts without query parameter",
         "passed": false,
-        "expected_status": 400,
-        "actual_status": 200,
-        "expected_body": {},
-        "actual_body": null
+        "expected_status": 200,
+        "actual_status": 401,
+        "expected_body": {
+            "_links": {
+                "empty": false
+            },
+            "address": "123 Main St",
+            "phone": "+123 456 789 01 23"
+        },
+        "actual_body": {
+            "message": "Access is denied",
+            "description": "uri=/customer/contacts",
+            "entityName": null,
+            "fieldErrors": []
+        }
     },
     {
-        "test_name": "Add a valid pet",
+        "test_name": "Get contacts with name query parameter",
+        "passed": false,
+        "expected_status": 200,
+        "actual_status": 401,
+        "expected_body": {
+            "_links": {
+                "empty": false
+            },
+            "address": "456 Elm St",
+            "phone": "+987 654 321 00 11"
+        },
+        "actual_body": {
+            "message": "Access is denied",
+            "description": "uri=/customer/contacts",
+            "entityName": null,
+            "fieldErrors": []
+        }
+    },
+    {
+        "test_name": "Unauthorized access to contacts",
         "passed": true,
-        "expected_status": 200,
-        "actual_status": 200,
-        "expected_body": {
-            "message": "Pet added successfully"
-        },
-        "actual_body": null
-    },
-    {
-        "test_name": "Add pet with missing name",
-        "passed": false,
-        "expected_status": 405,
-        "actual_status": 400,
-        "expected_body": {
-            "message": "Invalid input"
-        },
-        "actual_body": {
-            "timestamp": "2024-09-11T22:17:37.784Z",
-            "status": 400,
-            "error": "Bad Request",
-            "errors": [
-                {
-                    "codes": [
-                        "NotNull.pet.name",
-                        "NotNull.name",
-                        "NotNull.java.lang.String",
-                        "NotNull"
-                    ],
-                    "arguments": [
-                        {
-                            "codes": [
-                                "pet.name",
-                                "name"
-                            ],
-                            "arguments": null,
-                            "defaultMessage": "name",
-                            "code": "name"
-                        }
-                    ],
-                    "defaultMessage": "must not be null",
-                    "objectName": "pet",
-                    "field": "name",
-                    "rejectedValue": null,
-                    "bindingFailure": false,
-                    "code": "NotNull"
-                }
-            ],
-            "message": "Validation failed for object='pet'. Error count: 1",
-            "path": "/v3/pet"
-        }
-    },
-    {
-        "test_name": "Add pet with invalid status",
-        "passed": false,
-        "expected_status": 405,
-        "actual_status": 200,
-        "expected_body": {
-            "message": "Invalid input"
-        },
-        "actual_body": null
-    },
-    {
-        "test_name": "Get pets by available status",
-        "passed": false,
-        "error": "Expecting value: line 1 column 1 (char 0)"
-    },
-    {
-        "test_name": "Get pets by pending status",
-        "passed": false,
-        "error": "Expecting value: line 1 column 1 (char 0)"
-    },
-    {
-        "test_name": "Invalid status value",
-        "passed": false,
-        "error": "Expecting value: line 1 column 1 (char 0)"
-    },
-    {
-        "test_name": "Get pets by valid tags",
-        "passed": false,
-        "error": "Expecting value: line 1 column 1 (char 0)"
-    },
-    {
-        "test_name": "Get pets by single valid tag",
-        "passed": false,
-        "error": "Expecting value: line 1 column 1 (char 0)"
-    },
-    {
-        "test_name": "Get pets with invalid tag value",
-        "passed": false,
-        "error": "Expecting value: line 1 column 1 (char 0)"
-    },
-    {
-        "test_name": "Get existing pet by valid ID",
-        "passed": false,
-        "error": "Expecting value: line 1 column 1 (char 0)"
-    },
-    {
-        "test_name": "Get pet by ID that does not exist",
-        "passed": false,
-        "error": "Expecting value: line 1 column 1 (char 0)"
-    },
-    {
-        "test_name": "Get pet by invalid ID format",
-        "passed": false,
-        "error": "Expecting value: line 1 column 1 (char 0)"
-    },
-    {
-        "test_name": "Update pet with valid data",
-        "passed": false,
-        "expected_status": 200,
-        "actual_status": 415,
+        "expected_status": 401,
+        "actual_status": 401,
         "expected_body": {},
         "actual_body": {
-            "timestamp": "2024-09-11T22:17:51.377Z",
-            "status": 415,
-            "error": "Unsupported Media Type",
-            "message": "Content type 'application/json' not supported",
-            "path": "/v3/pet/1"
+            "message": "Access is denied",
+            "description": "uri=/customer/contacts",
+            "entityName": null,
+            "fieldErrors": []
         }
     },
     {
-        "test_name": "Update pet with missing status",
+        "test_name": "Forbidden access to contacts",
         "passed": false,
-        "expected_status": 405,
-        "actual_status": 415,
+        "expected_status": 403,
+        "actual_status": 401,
         "expected_body": {},
         "actual_body": {
-            "timestamp": "2024-09-11T22:17:51.394Z",
-            "status": 415,
-            "error": "Unsupported Media Type",
-            "message": "Content type 'application/json' not supported",
-            "path": "/v3/pet/2"
+            "message": "Access is denied",
+            "description": "uri=/customer/contacts",
+            "entityName": null,
+            "fieldErrors": []
         }
     },
     {
-        "test_name": "Update pet with invalid petId",
-        "passed": false,
-        "expected_status": 405,
-        "actual_status": 415,
-        "expected_body": {},
-        "actual_body": {
-            "timestamp": "2024-09-11T22:17:51.412Z",
-            "status": 415,
-            "error": "Unsupported Media Type",
-            "message": "Content type 'application/json' not supported",
-            "path": "/v3/pet/abc"
-        }
-    },
-    {
-        "test_name": "Delete existing pet",
-        "passed": true,
-        "expected_status": 200,
-        "actual_status": 200,
-        "expected_body": {},
-        "actual_body": null
-    },
-    {
-        "test_name": "Delete pet with invalid ID",
-        "passed": false,
-        "expected_status": 400,
-        "actual_status": 200,
-        "expected_body": {
-            "error": "Invalid pet value"
-        },
-        "actual_body": null
-    },
-    {
-        "test_name": "Delete pet without API key",
-        "passed": true,
-        "expected_status": 200,
-        "actual_status": 200,
-        "expected_body": {},
-        "actual_body": null
-    },
-    {
-        "test_name": "Upload image with valid petId and file",
-        "passed": false,
-        "expected_status": 200,
-        "actual_status": 500,
-        "expected_body": {
-            "code": 0,
-            "type": "type",
-            "message": "message"
-        },
-        "actual_body": {
-            "timestamp": "2024-09-11T22:17:56.905Z",
-            "status": 500,
-            "error": "Internal Server Error",
-            "message": "Failed to parse multipart servlet request; nested exception is java.io.IOException: org.apache.tomcat.util.http.fileupload.FileUploadException: the request was rejected because no multipart boundary was found",
-            "path": "/v3/pet/123/uploadImage"
-        }
-    },
-    {
-        "test_name": "Upload image with missing petId",
-        "passed": false,
-        "expected_status": 400,
-        "actual_status": 500,
-        "expected_body": {
-            "code": 400,
-            "type": "error",
-            "message": "petId is required"
-        },
-        "actual_body": {
-            "timestamp": "2024-09-11T22:17:56.926Z",
-            "status": 500,
-            "error": "Internal Server Error",
-            "message": "The request was rejected because the URL was not normalized.",
-            "path": "/v3/pet//uploadImage"
-        }
-    },
-    {
-        "test_name": "Upload image without file",
-        "passed": false,
-        "expected_status": 400,
-        "actual_status": 500,
-        "expected_body": {
-            "code": 400,
-            "type": "error",
-            "message": "file is required"
-        },
-        "actual_body": {
-            "timestamp": "2024-09-11T22:17:56.941Z",
-            "status": 500,
-            "error": "Internal Server Error",
-            "message": "Failed to parse multipart servlet request; nested exception is java.io.IOException: org.apache.tomcat.util.http.fileupload.FileUploadException: the request was rejected because no multipart boundary was found",
-            "path": "/v3/pet/456/uploadImage"
-        }
-    },
-    {
-        "test_name": "Get inventory successfully",
-        "passed": false,
-        "expected_status": 200,
-        "actual_status": 500,
-        "expected_body": {},
-        "actual_body": {
-            "timestamp": "2024-09-11T22:18:01.507Z",
-            "status": 500,
-            "error": "Internal Server Error",
-            "message": "No message available",
-            "path": "/v3/store/inventory"
-        }
-    },
-    {
-        "test_name": "Get inventory returns an object with integer values",
-        "passed": false,
-        "expected_status": 200,
-        "actual_status": 500,
-        "expected_body": {
-            "item1": 10,
-            "item2": 5,
-            "item3": 20
-        },
-        "actual_body": {
-            "timestamp": "2024-09-11T22:18:01.521Z",
-            "status": 500,
-            "error": "Internal Server Error",
-            "message": "No message available",
-            "path": "/v3/store/inventory"
-        }
-    },
-    {
-        "test_name": "Get inventory returns an empty object",
-        "passed": false,
-        "expected_status": 200,
-        "actual_status": 500,
-        "expected_body": {},
-        "actual_body": {
-            "timestamp": "2024-09-11T22:18:01.532Z",
-            "status": 500,
-            "error": "Internal Server Error",
-            "message": "No message available",
-            "path": "/v3/store/inventory"
-        }
-    },
-    {
-        "test_name": "Place order with valid data",
-        "passed": false,
-        "error": "Expecting value: line 1 column 1 (char 0)"
-    },
-    {
-        "test_name": "Place order with missing petId",
-        "passed": false,
-        "error": "Expecting value: line 1 column 1 (char 0)"
-    },
-    {
-        "test_name": "Place order with invalid status",
-        "passed": false,
-        "error": "Expecting value: line 1 column 1 (char 0)"
-    },
-    {
-        "test_name": "Get Order by Valid ID",
-        "passed": false,
-        "error": "Expecting value: line 1 column 1 (char 0)"
-    },
-    {
-        "test_name": "Get Order by ID Out of Range",
-        "passed": false,
-        "error": "Expecting value: line 1 column 1 (char 0)"
-    },
-    {
-        "test_name": "Get Order by Invalid ID",
-        "passed": false,
-        "error": "Expecting value: line 1 column 1 (char 0)"
-    },
-    {
-        "test_name": "Delete order with valid ID",
-        "passed": false,
-        "expected_status": 200,
-        "actual_status": 404,
-        "expected_body": {},
-        "actual_body": {
-            "timestamp": "2024-09-11T22:18:21.662Z",
-            "status": 404,
-            "error": "Not Found",
-            "message": "Response status 404",
-            "path": "/v3/store/order/12345"
-        }
-    },
-    {
-        "test_name": "Delete order with invalid ID format",
-        "passed": false,
-        "expected_status": 400,
-        "actual_status": 500,
-        "expected_body": {
-            "error": "Invalid ID supplied"
-        },
-        "actual_body": {
-            "timestamp": "2024-09-11T22:18:21.678Z",
-            "status": 500,
-            "error": "Internal Server Error",
-            "message": "For input string: \"invalid-id\"",
-            "path": "/v3/store/order/invalid-id"
-        }
-    },
-    {
-        "test_name": "Delete order that does not exist",
+        "test_name": "Not Found for non-existent endpoint",
         "passed": true,
         "expected_status": 404,
         "actual_status": 404,
-        "expected_body": {
-            "error": "Order not found"
-        },
+        "expected_body": {},
         "actual_body": {
-            "timestamp": "2024-09-11T22:18:21.690Z",
+            "timestamp": "2024-09-16T22:24:58.528+00:00",
             "status": 404,
             "error": "Not Found",
-            "message": "Response status 404",
-            "path": "/v3/store/order/99999"
+            "message": "No message available",
+            "path": "/customer/nonexistent"
         }
     },
     {
-        "test_name": "Create user with valid data",
-        "passed": true,
+        "test_name": "Update contacts with valid data",
+        "passed": false,
         "expected_status": 200,
-        "actual_status": 200,
+        "actual_status": 500,
+        "expected_body": {
+            "_links": {
+                "empty": false
+            },
+            "address": "123 Main St",
+            "phone": "+123 456 789 00"
+        },
+        "actual_body": {
+            "message": "JSON parse error: Expected relation name; nested exception is com.fasterxml.jackson.databind.JsonMappingException: Expected relation name\n at [Source: (PushbackInputStream); line: 1, column: 14] (through reference chain: market.dto.ContactsDTO[\"_links\"])",
+            "description": "uri=/customer/contacts",
+            "entityName": null,
+            "fieldErrors": []
+        }
+    },
+    {
+        "test_name": "Update contacts with invalid phone format",
+        "passed": false,
+        "expected_status": 400,
+        "actual_status": 500,
+        "expected_body": {
+            "error": "Invalid phone format"
+        },
+        "actual_body": {
+            "message": "JSON parse error: Expected relation name; nested exception is com.fasterxml.jackson.databind.JsonMappingException: Expected relation name\n at [Source: (PushbackInputStream); line: 1, column: 14] (through reference chain: market.dto.ContactsDTO[\"_links\"])",
+            "description": "uri=/customer/contacts",
+            "entityName": null,
+            "fieldErrors": []
+        }
+    },
+    {
+        "test_name": "Update contacts with missing required field",
+        "passed": false,
+        "expected_status": 400,
+        "actual_status": 500,
+        "expected_body": {
+            "error": "Phone number is required"
+        },
+        "actual_body": {
+            "message": "JSON parse error: Expected relation name; nested exception is com.fasterxml.jackson.databind.JsonMappingException: Expected relation name\n at [Source: (PushbackInputStream); line: 1, column: 14] (through reference chain: market.dto.ContactsDTO[\"_links\"])",
+            "description": "uri=/customer/contacts",
+            "entityName": null,
+            "fieldErrors": []
+        }
+    },
+    {
+        "test_name": "Get orders without query parameter",
+        "passed": false,
+        "expected_status": 200,
+        "actual_status": 401,
+        "expected_body": {
+            "items": []
+        },
+        "actual_body": {
+            "message": "Access is denied",
+            "description": "uri=/customer/orders",
+            "entityName": null,
+            "fieldErrors": []
+        }
+    },
+    {
+        "test_name": "Get orders with valid name query parameter",
+        "passed": false,
+        "expected_status": 200,
+        "actual_status": 401,
+        "expected_body": {
+            "items": [
+                {
+                    "_links": {
+                        "empty": false
+                    },
+                    "billNumber": 12345,
+                    "dateCreated": "2023-10-01T12:00:00Z",
+                    "deliveryCost": 5,
+                    "deliveryIncluded": true,
+                    "executed": true,
+                    "id": 1,
+                    "payed": true,
+                    "productsCost": 50.0,
+                    "totalCost": 55.0,
+                    "userAccount": "john.doe@example.com"
+                }
+            ]
+        },
+        "actual_body": {
+            "message": "Access is denied",
+            "description": "uri=/customer/orders",
+            "entityName": null,
+            "fieldErrors": []
+        }
+    },
+    {
+        "test_name": "Get orders with unauthorized access",
+        "passed": true,
+        "expected_status": 401,
+        "actual_status": 401,
         "expected_body": {},
-        "actual_body": null
+        "actual_body": {
+            "message": "Access is denied",
+            "description": "uri=/customer/orders",
+            "entityName": null,
+            "fieldErrors": []
+        }
     },
     {
-        "test_name": "Create user with missing required fields",
-        "passed": false,
-        "expected_status": 400,
-        "actual_status": 200,
-        "expected_body": {
-            "error": "Missing required fields"
-        },
-        "actual_body": null
-    },
-    {
-        "test_name": "Create user with invalid email format",
-        "passed": false,
-        "expected_status": 400,
-        "actual_status": 200,
-        "expected_body": {
-            "error": "Invalid email format"
-        },
-        "actual_body": null
-    },
-    {
-        "test_name": "Create users with valid data",
+        "test_name": "Get order with valid orderId",
         "passed": false,
         "expected_status": 200,
-        "actual_status": 400,
+        "actual_status": 401,
+        "expected_body": {
+            "_links": {
+                "empty": false
+            },
+            "billNumber": 98765,
+            "dateCreated": "2023-10-01T12:00:00Z",
+            "deliveryCost": 5,
+            "deliveryIncluded": true,
+            "executed": false,
+            "id": 12345,
+            "payed": true,
+            "productsCost": 50.0,
+            "totalCost": 55.0,
+            "userAccount": "user@example.com"
+        },
+        "actual_body": {
+            "message": "Access is denied",
+            "description": "uri=/customer/orders/12345",
+            "entityName": null,
+            "fieldErrors": []
+        }
+    },
+    {
+        "test_name": "Get order with non-existent orderId",
+        "passed": false,
+        "expected_status": 404,
+        "actual_status": 401,
         "expected_body": {},
         "actual_body": {
-            "timestamp": "2024-09-11T22:18:29.420Z",
-            "status": 400,
-            "error": "Bad Request",
-            "message": "JSON parse error: Cannot deserialize instance of `java.util.ArrayList` out of START_OBJECT token; nested exception is com.fasterxml.jackson.databind.exc.MismatchedInputException: Cannot deserialize instance of `java.util.ArrayList` out of START_OBJECT token\n at [Source: (PushbackInputStream); line: 1, column: 1]",
-            "path": "/v3/user/createWithArray"
+            "message": "Access is denied",
+            "description": "uri=/customer/orders/99999",
+            "entityName": null,
+            "fieldErrors": []
         }
     },
     {
-        "test_name": "Create users with missing required fields",
-        "passed": true,
-        "expected_status": 400,
-        "actual_status": 400,
-        "expected_body": {
-            "error": "Missing required fields"
-        },
-        "actual_body": {
-            "timestamp": "2024-09-11T22:18:29.433Z",
-            "status": 400,
-            "error": "Bad Request",
-            "message": "JSON parse error: Cannot deserialize instance of `java.util.ArrayList` out of START_OBJECT token; nested exception is com.fasterxml.jackson.databind.exc.MismatchedInputException: Cannot deserialize instance of `java.util.ArrayList` out of START_OBJECT token\n at [Source: (PushbackInputStream); line: 1, column: 1]",
-            "path": "/v3/user/createWithArray"
-        }
-    },
-    {
-        "test_name": "Create users with invalid email format",
-        "passed": true,
-        "expected_status": 400,
-        "actual_status": 400,
-        "expected_body": {
-            "error": "Invalid email format"
-        },
-        "actual_body": {
-            "timestamp": "2024-09-11T22:18:29.445Z",
-            "status": 400,
-            "error": "Bad Request",
-            "message": "JSON parse error: Cannot deserialize instance of `java.util.ArrayList` out of START_OBJECT token; nested exception is com.fasterxml.jackson.databind.exc.MismatchedInputException: Cannot deserialize instance of `java.util.ArrayList` out of START_OBJECT token\n at [Source: (PushbackInputStream); line: 1, column: 1]",
-            "path": "/v3/user/createWithArray"
-        }
-    },
-    {
-        "test_name": "Create users with valid user list",
+        "test_name": "Get order without required orderId",
         "passed": false,
-        "expected_status": 200,
-        "actual_status": 400,
+        "expected_status": 404,
+        "actual_status": 401,
         "expected_body": {},
         "actual_body": {
-            "timestamp": "2024-09-11T22:18:49.450Z",
-            "status": 400,
-            "error": "Bad Request",
-            "message": "JSON parse error: Cannot deserialize instance of `java.util.ArrayList` out of START_OBJECT token; nested exception is com.fasterxml.jackson.databind.exc.MismatchedInputException: Cannot deserialize instance of `java.util.ArrayList` out of START_OBJECT token\n at [Source: (PushbackInputStream); line: 1, column: 1]",
-            "path": "/v3/user/createWithList"
+            "message": "Access is denied",
+            "description": "uri=/customer/orders/",
+            "entityName": null,
+            "fieldErrors": []
         }
     },
     {
-        "test_name": "Create users with missing required fields",
-        "passed": true,
-        "expected_status": 400,
-        "actual_status": 400,
+        "test_name": "Get order with valid orderId and query parameter",
+        "passed": false,
+        "expected_status": 200,
+        "actual_status": 401,
         "expected_body": {
-            "error": "Missing required fields"
+            "_links": {
+                "empty": false
+            },
+            "billNumber": 98765,
+            "dateCreated": "2023-10-01T12:00:00Z",
+            "deliveryCost": 5,
+            "deliveryIncluded": true,
+            "executed": false,
+            "id": 12345,
+            "payed": true,
+            "productsCost": 50.0,
+            "totalCost": 55.0,
+            "userAccount": "user@example.com"
         },
         "actual_body": {
-            "timestamp": "2024-09-11T22:18:49.463Z",
-            "status": 400,
-            "error": "Bad Request",
-            "message": "JSON parse error: Cannot deserialize instance of `java.util.ArrayList` out of START_OBJECT token; nested exception is com.fasterxml.jackson.databind.exc.MismatchedInputException: Cannot deserialize instance of `java.util.ArrayList` out of START_OBJECT token\n at [Source: (PushbackInputStream); line: 1, column: 1]",
-            "path": "/v3/user/createWithList"
+            "message": "Access is denied",
+            "description": "uri=/customer/orders/12345",
+            "entityName": null,
+            "fieldErrors": []
         }
     },
     {
-        "test_name": "Create users with invalid email format",
-        "passed": true,
-        "expected_status": 400,
-        "actual_status": 400,
-        "expected_body": {
-            "error": "Invalid email format"
-        },
-        "actual_body": {
-            "timestamp": "2024-09-11T22:18:49.478Z",
-            "status": 400,
-            "error": "Bad Request",
-            "message": "JSON parse error: Cannot deserialize instance of `java.util.ArrayList` out of START_OBJECT token; nested exception is com.fasterxml.jackson.databind.exc.MismatchedInputException: Cannot deserialize instance of `java.util.ArrayList` out of START_OBJECT token\n at [Source: (PushbackInputStream); line: 1, column: 1]",
-            "path": "/v3/user/createWithList"
-        }
-    },
-    {
-        "test_name": "Successful login with valid credentials",
-        "passed": false,
-        "error": "Expecting value: line 1 column 1 (char 0)"
-    },
-    {
-        "test_name": "Login attempt with invalid username",
-        "passed": false,
-        "error": "Expecting value: line 1 column 1 (char 0)"
-    },
-    {
-        "test_name": "Login attempt with empty password",
-        "passed": false,
-        "error": "Expecting value: line 1 column 1 (char 0)"
-    },
-    {
-        "test_name": "Successful logout user",
+        "test_name": "Get all products successfully",
         "passed": true,
         "expected_status": 200,
         "actual_status": 200,
-        "expected_body": {
-            "message": "Logout successful"
-        },
-        "actual_body": null
+        "expected_body": [
+            {
+                "_links": {
+                    "empty": false
+                },
+                "age": 5,
+                "alcohol": 40.0,
+                "available": true,
+                "description": "A fine whiskey.",
+                "distillery": "Whiskey Distillery",
+                "name": "Fine Whiskey",
+                "price": 50.0,
+                "productId": 1,
+                "volume": 750
+            }
+        ],
+        "actual_body": [
+            {
+                "productId": 1,
+                "distillery": "Ardbeg",
+                "name": "Ten",
+                "price": 4420.0,
+                "age": 10,
+                "volume": 700,
+                "alcohol": 46.0,
+                "description": "Ten Years Old is the basis of the Ardbeg range. After 10 years of maturation in ex-bourbon casks, the whiskey bottled at 46% ABV without cold filtering. The characteristic peat, although clearly present but in perfect balance with the natural sweetness and not predominant in the taste.",
+                "available": false,
+                "links": [
+                    {
+                        "rel": "self",
+                        "href": "http://localhost:8081/products/1"
+                    }
+                ]
+            },
+            {
+                "productId": 2,
+                "distillery": "Ardbeg",
+                "name": "Uigeadail",
+                "price": 7020.0,
+                "age": 0,
+                "volume": 700,
+                "alcohol": 54.2,
+                "description": "Ardbeg Uigedael is named after Loch Uigedael, the lake in the grounds of the distillery Ardbeg which are the water is an important factor in the distilling process. The Uigedael a vatted malt, bottled at 54.2% ABV without cold filtering. Ardbeg Uigedael has no age indication for the expression consists of various malts of different ages. Malts are used partly matured in ex-bourbon and partly on ex-sherry casks.",
+                "available": true,
+                "links": [
+                    {
+                        "rel": "self",
+                        "href": "http://localhost:8081/products/2"
+                    }
+                ]
+            },
+            {
+                "productId": 3,
+                "distillery": "Balvenie",
+                "name": "12 y.o. Doublewood",
+                "price": 5403.0,
+                "age": 12,
+                "volume": 700,
+                "alcohol": 40.0,
+                "description": "Has clear influences from both bourbon and sherry wood. This malt has only 12 years aged in bourbon casks and then 3 months in young Oloroso casks. The peppery character from the bourbon barrels, penetrates, as it were by the rich and full aroma of Oloroso casks it. The Balvenie Double Wood is therefore a very complex malt.",
+                "available": true,
+                "links": [
+                    {
+                        "rel": "self",
+                        "href": "http://localhost:8081/products/3"
+                    }
+                ]
+            },
+            {
+                "productId": 4,
+                "distillery": "Caol Ila",
+                "name": "12 y.o.",
+                "price": 4913.0,
+                "age": 12,
+                "volume": 700,
+                "alcohol": 43.0,
+                "description": "Smoked ham comes across delicately with citrus and cigar leaves. Fresh and smoky, probably the best part of this whisky. With an almost full body, oil and tar meet subtle smoke. Hints of sweet tastes like honey. Some spices like pepper combined with little sweetness.",
+                "available": true,
+                "links": [
+                    {
+                        "rel": "self",
+                        "href": "http://localhost:8081/products/4"
+                    }
+                ]
+            },
+            {
+                "productId": 5,
+                "distillery": "Dalwhinnie",
+                "name": "15 y.o.",
+                "price": 6517.0,
+                "age": 15,
+                "volume": 750,
+                "alcohol": 43.0,
+                "description": "A good introduction to the delights of single malt whisky \u2013 elegant, smooth and medium-bodied, with a light, fruity palate and a whiff of heather on the finish. Part of Diageo's Classic Malt range. ",
+                "available": true,
+                "links": [
+                    {
+                        "rel": "self",
+                        "href": "http://localhost:8081/products/5"
+                    }
+                ]
+            },
+            {
+                "productId": 6,
+                "distillery": "Lagavulin",
+                "name": "16 y.o.",
+                "price": 6620.0,
+                "age": 16,
+                "volume": 750,
+                "alcohol": 43.0,
+                "description": "The Islay representative in the 'Classic Malts' series is a deep, dry and exceptionally peaty bruiser. Probably the most pungent of all Islay malts, Lagavulin is not for the faint-hearted but inspires fanatical devotion in its many followers.",
+                "available": true,
+                "links": [
+                    {
+                        "rel": "self",
+                        "href": "http://localhost:8081/products/6"
+                    }
+                ]
+            },
+            {
+                "productId": 7,
+                "distillery": "Laphroaig",
+                "name": "Quarter Cask",
+                "price": 5100.0,
+                "age": 0,
+                "volume": 700,
+                "alcohol": 48.0,
+                "description": "A vibrant young Laphroaig whose maturation has been accelerated by ageing in quarter casks. This shows soft sweetness and a velvety feel when first tasted, then the intense peatiness so unique to Laphroaig comes bursting through. A terrific whisky and great value.",
+                "available": true,
+                "links": [
+                    {
+                        "rel": "self",
+                        "href": "http://localhost:8081/products/7"
+                    }
+                ]
+            },
+            {
+                "productId": 8,
+                "distillery": "Springbank",
+                "name": "12 y.o. Cask Strength Batch 6",
+                "price": 8127.0,
+                "age": 12,
+                "volume": 700,
+                "alcohol": 53.1,
+                "description": "Like a storm gathering of the Kintyre coast, dark and ominous, yet tastes so good. The richness comes from the high percentage of sherry casks used in maturation. This is a truly classic Springbank, best enjoyed after dinner, or with your favourite cigar.",
+                "available": true,
+                "links": [
+                    {
+                        "rel": "self",
+                        "href": "http://localhost:8081/products/8"
+                    }
+                ]
+            },
+            {
+                "productId": 9,
+                "distillery": "Springbank",
+                "name": "18 y.o.",
+                "price": 14490.0,
+                "age": 18,
+                "volume": 700,
+                "alcohol": 46.0,
+                "description": "This heavily sherried 18-year-old Springbank has been bottled by Mark Reynier as part of his Renegade series. Distilled in 1995, this sherry hogshead was aged for 10 years in Campbeltown and then moved to Bruichladdich for a further eight years.",
+                "available": true,
+                "links": [
+                    {
+                        "rel": "self",
+                        "href": "http://localhost:8081/products/9"
+                    }
+                ]
+            },
+            {
+                "productId": 10,
+                "distillery": "Talisker",
+                "name": "10 y.o.",
+                "price": 4683.0,
+                "age": 10,
+                "volume": 750,
+                "alcohol": 45.8,
+                "description": "Powerful peat smoke with the salinity of sea water and the moisture of fresh oysters. Full sweetness of dried fruit with smoke and strong aromas of malted barley, warm and intense. Peppery in the mouth. Big, long, warming and peppery on the finish with an attractive sweetness.",
+                "available": true,
+                "links": [
+                    {
+                        "rel": "self",
+                        "href": "http://localhost:8081/products/10"
+                    }
+                ]
+            },
+            {
+                "productId": 11,
+                "distillery": "Glenkinchie",
+                "name": "12 y.o.",
+                "price": 4547.0,
+                "age": 12,
+                "volume": 700,
+                "alcohol": 43.0,
+                "description": "A light, delicate whiskey; sweet and creamy with a subtle floral aroma. This subtle, refined Lowland is ideal as an aperitif; try it straight from the fridge or freezer.",
+                "available": false,
+                "links": [
+                    {
+                        "rel": "self",
+                        "href": "http://localhost:8081/products/11"
+                    }
+                ]
+            }
+        ]
     },
     {
-        "test_name": "Logout without authorization token",
+        "test_name": "Unauthorized access",
         "passed": false,
         "expected_status": 401,
         "actual_status": 200,
-        "expected_body": {
-            "error": "Unauthorized"
-        },
-        "actual_body": null
+        "expected_body": {},
+        "actual_body": [
+            {
+                "productId": 1,
+                "distillery": "Ardbeg",
+                "name": "Ten",
+                "price": 4420.0,
+                "age": 10,
+                "volume": 700,
+                "alcohol": 46.0,
+                "description": "Ten Years Old is the basis of the Ardbeg range. After 10 years of maturation in ex-bourbon casks, the whiskey bottled at 46% ABV without cold filtering. The characteristic peat, although clearly present but in perfect balance with the natural sweetness and not predominant in the taste.",
+                "available": false,
+                "links": [
+                    {
+                        "rel": "self",
+                        "href": "http://localhost:8081/products/1"
+                    }
+                ]
+            },
+            {
+                "productId": 2,
+                "distillery": "Ardbeg",
+                "name": "Uigeadail",
+                "price": 7020.0,
+                "age": 0,
+                "volume": 700,
+                "alcohol": 54.2,
+                "description": "Ardbeg Uigedael is named after Loch Uigedael, the lake in the grounds of the distillery Ardbeg which are the water is an important factor in the distilling process. The Uigedael a vatted malt, bottled at 54.2% ABV without cold filtering. Ardbeg Uigedael has no age indication for the expression consists of various malts of different ages. Malts are used partly matured in ex-bourbon and partly on ex-sherry casks.",
+                "available": true,
+                "links": [
+                    {
+                        "rel": "self",
+                        "href": "http://localhost:8081/products/2"
+                    }
+                ]
+            },
+            {
+                "productId": 3,
+                "distillery": "Balvenie",
+                "name": "12 y.o. Doublewood",
+                "price": 5403.0,
+                "age": 12,
+                "volume": 700,
+                "alcohol": 40.0,
+                "description": "Has clear influences from both bourbon and sherry wood. This malt has only 12 years aged in bourbon casks and then 3 months in young Oloroso casks. The peppery character from the bourbon barrels, penetrates, as it were by the rich and full aroma of Oloroso casks it. The Balvenie Double Wood is therefore a very complex malt.",
+                "available": true,
+                "links": [
+                    {
+                        "rel": "self",
+                        "href": "http://localhost:8081/products/3"
+                    }
+                ]
+            },
+            {
+                "productId": 4,
+                "distillery": "Caol Ila",
+                "name": "12 y.o.",
+                "price": 4913.0,
+                "age": 12,
+                "volume": 700,
+                "alcohol": 43.0,
+                "description": "Smoked ham comes across delicately with citrus and cigar leaves. Fresh and smoky, probably the best part of this whisky. With an almost full body, oil and tar meet subtle smoke. Hints of sweet tastes like honey. Some spices like pepper combined with little sweetness.",
+                "available": true,
+                "links": [
+                    {
+                        "rel": "self",
+                        "href": "http://localhost:8081/products/4"
+                    }
+                ]
+            },
+            {
+                "productId": 5,
+                "distillery": "Dalwhinnie",
+                "name": "15 y.o.",
+                "price": 6517.0,
+                "age": 15,
+                "volume": 750,
+                "alcohol": 43.0,
+                "description": "A good introduction to the delights of single malt whisky \u2013 elegant, smooth and medium-bodied, with a light, fruity palate and a whiff of heather on the finish. Part of Diageo's Classic Malt range. ",
+                "available": true,
+                "links": [
+                    {
+                        "rel": "self",
+                        "href": "http://localhost:8081/products/5"
+                    }
+                ]
+            },
+            {
+                "productId": 6,
+                "distillery": "Lagavulin",
+                "name": "16 y.o.",
+                "price": 6620.0,
+                "age": 16,
+                "volume": 750,
+                "alcohol": 43.0,
+                "description": "The Islay representative in the 'Classic Malts' series is a deep, dry and exceptionally peaty bruiser. Probably the most pungent of all Islay malts, Lagavulin is not for the faint-hearted but inspires fanatical devotion in its many followers.",
+                "available": true,
+                "links": [
+                    {
+                        "rel": "self",
+                        "href": "http://localhost:8081/products/6"
+                    }
+                ]
+            },
+            {
+                "productId": 7,
+                "distillery": "Laphroaig",
+                "name": "Quarter Cask",
+                "price": 5100.0,
+                "age": 0,
+                "volume": 700,
+                "alcohol": 48.0,
+                "description": "A vibrant young Laphroaig whose maturation has been accelerated by ageing in quarter casks. This shows soft sweetness and a velvety feel when first tasted, then the intense peatiness so unique to Laphroaig comes bursting through. A terrific whisky and great value.",
+                "available": true,
+                "links": [
+                    {
+                        "rel": "self",
+                        "href": "http://localhost:8081/products/7"
+                    }
+                ]
+            },
+            {
+                "productId": 8,
+                "distillery": "Springbank",
+                "name": "12 y.o. Cask Strength Batch 6",
+                "price": 8127.0,
+                "age": 12,
+                "volume": 700,
+                "alcohol": 53.1,
+                "description": "Like a storm gathering of the Kintyre coast, dark and ominous, yet tastes so good. The richness comes from the high percentage of sherry casks used in maturation. This is a truly classic Springbank, best enjoyed after dinner, or with your favourite cigar.",
+                "available": true,
+                "links": [
+                    {
+                        "rel": "self",
+                        "href": "http://localhost:8081/products/8"
+                    }
+                ]
+            },
+            {
+                "productId": 9,
+                "distillery": "Springbank",
+                "name": "18 y.o.",
+                "price": 14490.0,
+                "age": 18,
+                "volume": 700,
+                "alcohol": 46.0,
+                "description": "This heavily sherried 18-year-old Springbank has been bottled by Mark Reynier as part of his Renegade series. Distilled in 1995, this sherry hogshead was aged for 10 years in Campbeltown and then moved to Bruichladdich for a further eight years.",
+                "available": true,
+                "links": [
+                    {
+                        "rel": "self",
+                        "href": "http://localhost:8081/products/9"
+                    }
+                ]
+            },
+            {
+                "productId": 10,
+                "distillery": "Talisker",
+                "name": "10 y.o.",
+                "price": 4683.0,
+                "age": 10,
+                "volume": 750,
+                "alcohol": 45.8,
+                "description": "Powerful peat smoke with the salinity of sea water and the moisture of fresh oysters. Full sweetness of dried fruit with smoke and strong aromas of malted barley, warm and intense. Peppery in the mouth. Big, long, warming and peppery on the finish with an attractive sweetness.",
+                "available": true,
+                "links": [
+                    {
+                        "rel": "self",
+                        "href": "http://localhost:8081/products/10"
+                    }
+                ]
+            },
+            {
+                "productId": 11,
+                "distillery": "Glenkinchie",
+                "name": "12 y.o.",
+                "price": 4547.0,
+                "age": 12,
+                "volume": 700,
+                "alcohol": 43.0,
+                "description": "A light, delicate whiskey; sweet and creamy with a subtle floral aroma. This subtle, refined Lowland is ideal as an aperitif; try it straight from the fridge or freezer.",
+                "available": false,
+                "links": [
+                    {
+                        "rel": "self",
+                        "href": "http://localhost:8081/products/11"
+                    }
+                ]
+            }
+        ]
     },
     {
-        "test_name": "Logout with expired token",
+        "test_name": "Forbidden access",
         "passed": false,
-        "expected_status": 401,
-        "actual_status": 200,
-        "expected_body": {
-            "error": "Token has expired"
-        },
-        "actual_body": null
-    },
-    {
-        "test_name": "Fetch existing user by username",
-        "passed": false,
-        "error": "Expecting value: line 1 column 1 (char 0)"
-    },
-    {
-        "test_name": "Fetch non-existing user",
-        "passed": false,
-        "error": "Expecting value: line 1 column 1 (char 0)"
-    },
-    {
-        "test_name": "Fetch user with invalid username format",
-        "passed": false,
-        "error": "Expecting value: line 1 column 1 (char 0)"
-    },
-    {
-        "test_name": "Update user successfully with valid data",
-        "passed": true,
-        "expected_status": 200,
-        "actual_status": 200,
-        "expected_body": {
-            "message": "User updated successfully"
-        },
-        "actual_body": null
-    },
-    {
-        "test_name": "Fail to update user due to invalid data",
-        "passed": false,
-        "expected_status": 400,
-        "actual_status": 200,
-        "expected_body": {
-            "error": "Invalid user supplied"
-        },
-        "actual_body": null
-    },
-    {
-        "test_name": "Fail to update user when user does not exist",
-        "passed": false,
-        "expected_status": 404,
-        "actual_status": 200,
-        "expected_body": {
-            "error": "User not found"
-        },
-        "actual_body": null
-    },
-    {
-        "test_name": "Delete user with valid username",
-        "passed": true,
-        "expected_status": 200,
+        "expected_status": 403,
         "actual_status": 200,
         "expected_body": {},
-        "actual_body": null
+        "actual_body": [
+            {
+                "productId": 1,
+                "distillery": "Ardbeg",
+                "name": "Ten",
+                "price": 4420.0,
+                "age": 10,
+                "volume": 700,
+                "alcohol": 46.0,
+                "description": "Ten Years Old is the basis of the Ardbeg range. After 10 years of maturation in ex-bourbon casks, the whiskey bottled at 46% ABV without cold filtering. The characteristic peat, although clearly present but in perfect balance with the natural sweetness and not predominant in the taste.",
+                "available": false,
+                "links": [
+                    {
+                        "rel": "self",
+                        "href": "http://localhost:8081/products/1"
+                    }
+                ]
+            },
+            {
+                "productId": 2,
+                "distillery": "Ardbeg",
+                "name": "Uigeadail",
+                "price": 7020.0,
+                "age": 0,
+                "volume": 700,
+                "alcohol": 54.2,
+                "description": "Ardbeg Uigedael is named after Loch Uigedael, the lake in the grounds of the distillery Ardbeg which are the water is an important factor in the distilling process. The Uigedael a vatted malt, bottled at 54.2% ABV without cold filtering. Ardbeg Uigedael has no age indication for the expression consists of various malts of different ages. Malts are used partly matured in ex-bourbon and partly on ex-sherry casks.",
+                "available": true,
+                "links": [
+                    {
+                        "rel": "self",
+                        "href": "http://localhost:8081/products/2"
+                    }
+                ]
+            },
+            {
+                "productId": 3,
+                "distillery": "Balvenie",
+                "name": "12 y.o. Doublewood",
+                "price": 5403.0,
+                "age": 12,
+                "volume": 700,
+                "alcohol": 40.0,
+                "description": "Has clear influences from both bourbon and sherry wood. This malt has only 12 years aged in bourbon casks and then 3 months in young Oloroso casks. The peppery character from the bourbon barrels, penetrates, as it were by the rich and full aroma of Oloroso casks it. The Balvenie Double Wood is therefore a very complex malt.",
+                "available": true,
+                "links": [
+                    {
+                        "rel": "self",
+                        "href": "http://localhost:8081/products/3"
+                    }
+                ]
+            },
+            {
+                "productId": 4,
+                "distillery": "Caol Ila",
+                "name": "12 y.o.",
+                "price": 4913.0,
+                "age": 12,
+                "volume": 700,
+                "alcohol": 43.0,
+                "description": "Smoked ham comes across delicately with citrus and cigar leaves. Fresh and smoky, probably the best part of this whisky. With an almost full body, oil and tar meet subtle smoke. Hints of sweet tastes like honey. Some spices like pepper combined with little sweetness.",
+                "available": true,
+                "links": [
+                    {
+                        "rel": "self",
+                        "href": "http://localhost:8081/products/4"
+                    }
+                ]
+            },
+            {
+                "productId": 5,
+                "distillery": "Dalwhinnie",
+                "name": "15 y.o.",
+                "price": 6517.0,
+                "age": 15,
+                "volume": 750,
+                "alcohol": 43.0,
+                "description": "A good introduction to the delights of single malt whisky \u2013 elegant, smooth and medium-bodied, with a light, fruity palate and a whiff of heather on the finish. Part of Diageo's Classic Malt range. ",
+                "available": true,
+                "links": [
+                    {
+                        "rel": "self",
+                        "href": "http://localhost:8081/products/5"
+                    }
+                ]
+            },
+            {
+                "productId": 6,
+                "distillery": "Lagavulin",
+                "name": "16 y.o.",
+                "price": 6620.0,
+                "age": 16,
+                "volume": 750,
+                "alcohol": 43.0,
+                "description": "The Islay representative in the 'Classic Malts' series is a deep, dry and exceptionally peaty bruiser. Probably the most pungent of all Islay malts, Lagavulin is not for the faint-hearted but inspires fanatical devotion in its many followers.",
+                "available": true,
+                "links": [
+                    {
+                        "rel": "self",
+                        "href": "http://localhost:8081/products/6"
+                    }
+                ]
+            },
+            {
+                "productId": 7,
+                "distillery": "Laphroaig",
+                "name": "Quarter Cask",
+                "price": 5100.0,
+                "age": 0,
+                "volume": 700,
+                "alcohol": 48.0,
+                "description": "A vibrant young Laphroaig whose maturation has been accelerated by ageing in quarter casks. This shows soft sweetness and a velvety feel when first tasted, then the intense peatiness so unique to Laphroaig comes bursting through. A terrific whisky and great value.",
+                "available": true,
+                "links": [
+                    {
+                        "rel": "self",
+                        "href": "http://localhost:8081/products/7"
+                    }
+                ]
+            },
+            {
+                "productId": 8,
+                "distillery": "Springbank",
+                "name": "12 y.o. Cask Strength Batch 6",
+                "price": 8127.0,
+                "age": 12,
+                "volume": 700,
+                "alcohol": 53.1,
+                "description": "Like a storm gathering of the Kintyre coast, dark and ominous, yet tastes so good. The richness comes from the high percentage of sherry casks used in maturation. This is a truly classic Springbank, best enjoyed after dinner, or with your favourite cigar.",
+                "available": true,
+                "links": [
+                    {
+                        "rel": "self",
+                        "href": "http://localhost:8081/products/8"
+                    }
+                ]
+            },
+            {
+                "productId": 9,
+                "distillery": "Springbank",
+                "name": "18 y.o.",
+                "price": 14490.0,
+                "age": 18,
+                "volume": 700,
+                "alcohol": 46.0,
+                "description": "This heavily sherried 18-year-old Springbank has been bottled by Mark Reynier as part of his Renegade series. Distilled in 1995, this sherry hogshead was aged for 10 years in Campbeltown and then moved to Bruichladdich for a further eight years.",
+                "available": true,
+                "links": [
+                    {
+                        "rel": "self",
+                        "href": "http://localhost:8081/products/9"
+                    }
+                ]
+            },
+            {
+                "productId": 10,
+                "distillery": "Talisker",
+                "name": "10 y.o.",
+                "price": 4683.0,
+                "age": 10,
+                "volume": 750,
+                "alcohol": 45.8,
+                "description": "Powerful peat smoke with the salinity of sea water and the moisture of fresh oysters. Full sweetness of dried fruit with smoke and strong aromas of malted barley, warm and intense. Peppery in the mouth. Big, long, warming and peppery on the finish with an attractive sweetness.",
+                "available": true,
+                "links": [
+                    {
+                        "rel": "self",
+                        "href": "http://localhost:8081/products/10"
+                    }
+                ]
+            },
+            {
+                "productId": 11,
+                "distillery": "Glenkinchie",
+                "name": "12 y.o.",
+                "price": 4547.0,
+                "age": 12,
+                "volume": 700,
+                "alcohol": 43.0,
+                "description": "A light, delicate whiskey; sweet and creamy with a subtle floral aroma. This subtle, refined Lowland is ideal as an aperitif; try it straight from the fridge or freezer.",
+                "available": false,
+                "links": [
+                    {
+                        "rel": "self",
+                        "href": "http://localhost:8081/products/11"
+                    }
+                ]
+            }
+        ]
     },
     {
-        "test_name": "Delete user with invalid username",
+        "test_name": "Get product with valid productId",
+        "passed": true,
+        "expected_status": 200,
+        "actual_status": 200,
+        "expected_body": {
+            "alcohol": 40.0,
+            "price": 25.99,
+            "volume": 750,
+            "productId": 1,
+            "name": "Product Name",
+            "description": "Product Description",
+            "distillery": "Distillery Name",
+            "available": true,
+            "age": 5,
+            "_links": {
+                "empty": false
+            }
+        },
+        "actual_body": {
+            "productId": 1,
+            "distillery": "Ardbeg",
+            "name": "Ten",
+            "price": 4420.0,
+            "age": 10,
+            "volume": 700,
+            "alcohol": 46.0,
+            "description": "Ten Years Old is the basis of the Ardbeg range. After 10 years of maturation in ex-bourbon casks, the whiskey bottled at 46% ABV without cold filtering. The characteristic peat, although clearly present but in perfect balance with the natural sweetness and not predominant in the taste.",
+            "available": false,
+            "_links": {
+                "All products": {
+                    "href": "http://localhost:8081/products"
+                }
+            }
+        }
+    },
+    {
+        "test_name": "Get product with non-existent productId",
         "passed": true,
         "expected_status": 404,
         "actual_status": 404,
         "expected_body": {},
         "actual_body": {
-            "timestamp": "2024-09-11T22:19:13.434Z",
-            "status": 404,
-            "error": "Not Found",
-            "message": "Response status 404",
-            "path": "/v3/user/invalid_user_123"
+            "message": "Requested entity doesn't exist",
+            "description": "uri=/products/9999",
+            "entityName": "ProductDTO",
+            "fieldErrors": [
+                {
+                    "field": "id",
+                    "message": "No instance with this id"
+                }
+            ]
         }
     },
     {
-        "test_name": "Delete user with missing username",
+        "test_name": "Get product without productId",
         "passed": false,
-        "expected_status": 400,
-        "actual_status": 405,
+        "expected_status": 404,
+        "actual_status": 200,
+        "expected_body": {},
+        "actual_body": [
+            {
+                "productId": 1,
+                "distillery": "Ardbeg",
+                "name": "Ten",
+                "price": 4420.0,
+                "age": 10,
+                "volume": 700,
+                "alcohol": 46.0,
+                "description": "Ten Years Old is the basis of the Ardbeg range. After 10 years of maturation in ex-bourbon casks, the whiskey bottled at 46% ABV without cold filtering. The characteristic peat, although clearly present but in perfect balance with the natural sweetness and not predominant in the taste.",
+                "available": false,
+                "links": [
+                    {
+                        "rel": "self",
+                        "href": "http://localhost:8081/products/1"
+                    }
+                ]
+            },
+            {
+                "productId": 2,
+                "distillery": "Ardbeg",
+                "name": "Uigeadail",
+                "price": 7020.0,
+                "age": 0,
+                "volume": 700,
+                "alcohol": 54.2,
+                "description": "Ardbeg Uigedael is named after Loch Uigedael, the lake in the grounds of the distillery Ardbeg which are the water is an important factor in the distilling process. The Uigedael a vatted malt, bottled at 54.2% ABV without cold filtering. Ardbeg Uigedael has no age indication for the expression consists of various malts of different ages. Malts are used partly matured in ex-bourbon and partly on ex-sherry casks.",
+                "available": true,
+                "links": [
+                    {
+                        "rel": "self",
+                        "href": "http://localhost:8081/products/2"
+                    }
+                ]
+            },
+            {
+                "productId": 3,
+                "distillery": "Balvenie",
+                "name": "12 y.o. Doublewood",
+                "price": 5403.0,
+                "age": 12,
+                "volume": 700,
+                "alcohol": 40.0,
+                "description": "Has clear influences from both bourbon and sherry wood. This malt has only 12 years aged in bourbon casks and then 3 months in young Oloroso casks. The peppery character from the bourbon barrels, penetrates, as it were by the rich and full aroma of Oloroso casks it. The Balvenie Double Wood is therefore a very complex malt.",
+                "available": true,
+                "links": [
+                    {
+                        "rel": "self",
+                        "href": "http://localhost:8081/products/3"
+                    }
+                ]
+            },
+            {
+                "productId": 4,
+                "distillery": "Caol Ila",
+                "name": "12 y.o.",
+                "price": 4913.0,
+                "age": 12,
+                "volume": 700,
+                "alcohol": 43.0,
+                "description": "Smoked ham comes across delicately with citrus and cigar leaves. Fresh and smoky, probably the best part of this whisky. With an almost full body, oil and tar meet subtle smoke. Hints of sweet tastes like honey. Some spices like pepper combined with little sweetness.",
+                "available": true,
+                "links": [
+                    {
+                        "rel": "self",
+                        "href": "http://localhost:8081/products/4"
+                    }
+                ]
+            },
+            {
+                "productId": 5,
+                "distillery": "Dalwhinnie",
+                "name": "15 y.o.",
+                "price": 6517.0,
+                "age": 15,
+                "volume": 750,
+                "alcohol": 43.0,
+                "description": "A good introduction to the delights of single malt whisky \u2013 elegant, smooth and medium-bodied, with a light, fruity palate and a whiff of heather on the finish. Part of Diageo's Classic Malt range. ",
+                "available": true,
+                "links": [
+                    {
+                        "rel": "self",
+                        "href": "http://localhost:8081/products/5"
+                    }
+                ]
+            },
+            {
+                "productId": 6,
+                "distillery": "Lagavulin",
+                "name": "16 y.o.",
+                "price": 6620.0,
+                "age": 16,
+                "volume": 750,
+                "alcohol": 43.0,
+                "description": "The Islay representative in the 'Classic Malts' series is a deep, dry and exceptionally peaty bruiser. Probably the most pungent of all Islay malts, Lagavulin is not for the faint-hearted but inspires fanatical devotion in its many followers.",
+                "available": true,
+                "links": [
+                    {
+                        "rel": "self",
+                        "href": "http://localhost:8081/products/6"
+                    }
+                ]
+            },
+            {
+                "productId": 7,
+                "distillery": "Laphroaig",
+                "name": "Quarter Cask",
+                "price": 5100.0,
+                "age": 0,
+                "volume": 700,
+                "alcohol": 48.0,
+                "description": "A vibrant young Laphroaig whose maturation has been accelerated by ageing in quarter casks. This shows soft sweetness and a velvety feel when first tasted, then the intense peatiness so unique to Laphroaig comes bursting through. A terrific whisky and great value.",
+                "available": true,
+                "links": [
+                    {
+                        "rel": "self",
+                        "href": "http://localhost:8081/products/7"
+                    }
+                ]
+            },
+            {
+                "productId": 8,
+                "distillery": "Springbank",
+                "name": "12 y.o. Cask Strength Batch 6",
+                "price": 8127.0,
+                "age": 12,
+                "volume": 700,
+                "alcohol": 53.1,
+                "description": "Like a storm gathering of the Kintyre coast, dark and ominous, yet tastes so good. The richness comes from the high percentage of sherry casks used in maturation. This is a truly classic Springbank, best enjoyed after dinner, or with your favourite cigar.",
+                "available": true,
+                "links": [
+                    {
+                        "rel": "self",
+                        "href": "http://localhost:8081/products/8"
+                    }
+                ]
+            },
+            {
+                "productId": 9,
+                "distillery": "Springbank",
+                "name": "18 y.o.",
+                "price": 14490.0,
+                "age": 18,
+                "volume": 700,
+                "alcohol": 46.0,
+                "description": "This heavily sherried 18-year-old Springbank has been bottled by Mark Reynier as part of his Renegade series. Distilled in 1995, this sherry hogshead was aged for 10 years in Campbeltown and then moved to Bruichladdich for a further eight years.",
+                "available": true,
+                "links": [
+                    {
+                        "rel": "self",
+                        "href": "http://localhost:8081/products/9"
+                    }
+                ]
+            },
+            {
+                "productId": 10,
+                "distillery": "Talisker",
+                "name": "10 y.o.",
+                "price": 4683.0,
+                "age": 10,
+                "volume": 750,
+                "alcohol": 45.8,
+                "description": "Powerful peat smoke with the salinity of sea water and the moisture of fresh oysters. Full sweetness of dried fruit with smoke and strong aromas of malted barley, warm and intense. Peppery in the mouth. Big, long, warming and peppery on the finish with an attractive sweetness.",
+                "available": true,
+                "links": [
+                    {
+                        "rel": "self",
+                        "href": "http://localhost:8081/products/10"
+                    }
+                ]
+            },
+            {
+                "productId": 11,
+                "distillery": "Glenkinchie",
+                "name": "12 y.o.",
+                "price": 4547.0,
+                "age": 12,
+                "volume": 700,
+                "alcohol": 43.0,
+                "description": "A light, delicate whiskey; sweet and creamy with a subtle floral aroma. This subtle, refined Lowland is ideal as an aperitif; try it straight from the fridge or freezer.",
+                "available": false,
+                "links": [
+                    {
+                        "rel": "self",
+                        "href": "http://localhost:8081/products/11"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "test_name": "Successful customer registration",
+        "passed": false,
+        "expected_status": 201,
+        "actual_status": 406,
+        "expected_body": {
+            "address": "123 Main St",
+            "email": "test@example.com",
+            "name": "John Doe",
+            "phone": "+123 456 789 00",
+            "_links": {
+                "empty": true
+            }
+        },
+        "actual_body": {
+            "message": "Argument validation error",
+            "description": "uri=/register",
+            "entityName": "userDTO",
+            "fieldErrors": [
+                {
+                    "field": "phone",
+                    "message": "The value shall not be empty"
+                },
+                {
+                    "field": "address",
+                    "message": "The value shall not be empty"
+                },
+                {
+                    "field": "email",
+                    "message": "The value shall not be empty"
+                },
+                {
+                    "field": "name",
+                    "message": "The value shall not be empty"
+                }
+            ]
+        }
+    },
+    {
+        "test_name": "Email format validation failure",
+        "passed": false,
+        "expected_status": 403,
+        "actual_status": 406,
         "expected_body": {},
         "actual_body": {
-            "timestamp": "2024-09-11T22:19:13.447Z",
-            "status": 405,
-            "error": "Method Not Allowed",
-            "message": "Request method 'DELETE' not supported",
-            "path": "/v3/user/"
+            "message": "Argument validation error",
+            "description": "uri=/register",
+            "entityName": "userDTO",
+            "fieldErrors": [
+                {
+                    "field": "email",
+                    "message": "The value shall not be empty"
+                },
+                {
+                    "field": "name",
+                    "message": "The value shall not be empty"
+                },
+                {
+                    "field": "phone",
+                    "message": "The value shall not be empty"
+                },
+                {
+                    "field": "address",
+                    "message": "The value shall not be empty"
+                }
+            ]
+        }
+    },
+    {
+        "test_name": "Password length validation failure",
+        "passed": false,
+        "expected_status": 403,
+        "actual_status": 406,
+        "expected_body": {},
+        "actual_body": {
+            "message": "Argument validation error",
+            "description": "uri=/register",
+            "entityName": "userDTO",
+            "fieldErrors": [
+                {
+                    "field": "name",
+                    "message": "The value shall not be empty"
+                },
+                {
+                    "field": "address",
+                    "message": "The value shall not be empty"
+                },
+                {
+                    "field": "phone",
+                    "message": "The value shall not be empty"
+                },
+                {
+                    "field": "email",
+                    "message": "The value shall not be empty"
+                }
+            ]
         }
     }
 ]

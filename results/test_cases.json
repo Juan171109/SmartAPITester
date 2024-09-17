@@ -1,1285 +1,67 @@
 [
     {
-        "test_name": "Update pet with valid data",
+        "test_name": "Get customer without name parameter",
         "request": {
-            "method": "PUT",
-            "path": "/pet",
+            "method": "GET",
+            "path": "/customer",
             "headers": {
                 "Content-Type": "application/json"
             },
+            "body": {},
+            "query": {}
+        },
+        "expected_response": {
+            "status_code": 200,
             "body": {
-                "id": 1,
-                "category": {
-                    "id": 6,
-                    "name": "Dog"
+                "_links": {
+                    "empty": true
                 },
-                "name": "doggie",
-                "photoUrls": [
-                    "url1",
-                    "url2"
-                ],
-                "tags": [
-                    {
-                        "id": 1,
-                        "name": "tag1"
-                    }
-                ],
-                "status": "available"
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 200,
-            "body": {}
-        }
-    },
-    {
-        "test_name": "Update pet with missing name",
-        "request": {
-            "method": "PUT",
-            "path": "/pet",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "id": 1,
-                "category": {
-                    "id": 6,
-                    "name": "Dog"
-                },
-                "photoUrls": [
-                    "url1",
-                    "url2"
-                ],
-                "tags": [
-                    {
-                        "id": 1,
-                        "name": "tag1"
-                    }
-                ],
-                "status": "available"
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 405,
-            "body": {}
-        }
-    },
-    {
-        "test_name": "Update pet with invalid ID",
-        "request": {
-            "method": "PUT",
-            "path": "/pet",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "id": -1,
-                "category": {
-                    "id": 6,
-                    "name": "Dog"
-                },
-                "name": "doggie",
-                "photoUrls": [
-                    "url1",
-                    "url2"
-                ],
-                "tags": [
-                    {
-                        "id": 1,
-                        "name": "tag1"
-                    }
-                ],
-                "status": "available"
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 400,
-            "body": {}
-        }
-    },
-    {
-        "test_name": "Add valid pet",
-        "request": {
-            "method": "POST",
-            "path": "/pet",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "name": "doggie",
-                "photoUrls": [
-                    "url1",
-                    "url2"
-                ],
-                "category": {
-                    "id": 6,
-                    "name": "dog"
-                },
-                "tags": [
-                    {
-                        "id": 1,
-                        "name": "tag1"
-                    }
-                ],
-                "status": "available"
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 200,
-            "body": {}
-        }
-    },
-    {
-        "test_name": "Add pet missing name",
-        "request": {
-            "method": "POST",
-            "path": "/pet",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "photoUrls": [
-                    "url1",
-                    "url2"
-                ],
-                "category": {
-                    "id": 6,
-                    "name": "dog"
-                },
-                "tags": [
-                    {
-                        "id": 1,
-                        "name": "tag1"
-                    }
-                ],
-                "status": "available"
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 405,
-            "body": {}
-        }
-    },
-    {
-        "test_name": "Add pet with invalid status",
-        "request": {
-            "method": "POST",
-            "path": "/pet",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "name": "doggie",
-                "photoUrls": [
-                    "url1",
-                    "url2"
-                ],
-                "category": {
-                    "id": 6,
-                    "name": "dog"
-                },
-                "tags": [
-                    {
-                        "id": 1,
-                        "name": "tag1"
-                    }
-                ],
-                "status": "unknown"
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 405,
-            "body": {}
-        }
-    },
-    {
-        "test_name": "Find pets by available status",
-        "request": {
-            "method": "GET",
-            "path": "/pet/findByStatus",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "status": [
-                    "available"
-                ]
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 200,
-            "body": [
-                {
-                    "id": 1,
-                    "category": {
-                        "id": 1,
-                        "name": "Dog"
-                    },
-                    "name": "Buddy",
-                    "photoUrls": [
-                        "url1",
-                        "url2"
-                    ],
-                    "tags": [],
-                    "status": "available"
-                }
-            ]
-        }
-    },
-    {
-        "test_name": "Find pets by pending status",
-        "request": {
-            "method": "GET",
-            "path": "/pet/findByStatus",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "status": [
-                    "pending"
-                ]
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 200,
-            "body": [
-                {
-                    "id": 2,
-                    "category": {
-                        "id": 2,
-                        "name": "Cat"
-                    },
-                    "name": "Whiskers",
-                    "photoUrls": [
-                        "url3",
-                        "url4"
-                    ],
-                    "tags": [],
-                    "status": "pending"
-                }
-            ]
-        }
-    },
-    {
-        "test_name": "Find pets by sold status",
-        "request": {
-            "method": "GET",
-            "path": "/pet/findByStatus",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "status": [
-                    "sold"
-                ]
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 200,
-            "body": [
-                {
-                    "id": 3,
-                    "category": {
-                        "id": 3,
-                        "name": "Bird"
-                    },
-                    "name": "Tweety",
-                    "photoUrls": [
-                        "url5",
-                        "url6"
-                    ],
-                    "tags": [],
-                    "status": "sold"
-                }
-            ]
-        }
-    },
-    {
-        "test_name": "Invalid status value",
-        "request": {
-            "method": "GET",
-            "path": "/pet/findByStatus",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "status": [
-                    "invalid_status"
-                ]
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 400,
-            "body": {}
-        }
-    },
-    {
-        "test_name": "Fetch pets with valid tags",
-        "request": {
-            "method": "GET",
-            "path": "/pet/findByTags",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "tags": [
-                    "dog",
-                    "poodle"
-                ]
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 200,
-            "body": [
-                {
-                    "id": 1,
-                    "category": {
-                        "id": 6,
-                        "name": "Dog"
-                    },
-                    "name": "Fido",
-                    "photoUrls": [
-                        "url1",
-                        "url2"
-                    ],
-                    "tags": [
-                        {
-                            "id": 1,
-                            "name": "dog"
-                        }
-                    ],
-                    "status": "available"
-                }
-            ]
-        }
-    },
-    {
-        "test_name": "Fetch pets with empty tags",
-        "request": {
-            "method": "GET",
-            "path": "/pet/findByTags",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "tags": []
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 200,
-            "body": []
-        }
-    },
-    {
-        "test_name": "Fetch pets with invalid tag value",
-        "request": {
-            "method": "GET",
-            "path": "/pet/findByTags",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "tags": [
-                    "invalidTag"
-                ]
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 200,
-            "body": []
-        }
-    },
-    {
-        "test_name": "Get pet by valid ID",
-        "request": {
-            "method": "GET",
-            "path": "/pet/1",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {},
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 200,
-            "body": {
-                "id": 1,
-                "name": "doggie",
-                "category": {
-                    "id": 6,
-                    "name": "name"
-                },
-                "photoUrls": [
-                    "photoUrls",
-                    "photoUrls"
-                ],
-                "tags": [
-                    {
-                        "id": 1,
-                        "name": "name"
-                    }
-                ],
-                "status": "available"
-            }
-        }
-    },
-    {
-        "test_name": "Get pet by invalid ID",
-        "request": {
-            "method": "GET",
-            "path": "/pet/99999",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {},
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 404,
-            "body": {}
-        }
-    },
-    {
-        "test_name": "Get pet by negative ID",
-        "request": {
-            "method": "GET",
-            "path": "/pet/-1",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {},
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 400,
-            "body": {}
-        }
-    },
-    {
-        "test_name": "Update pet with valid data",
-        "request": {
-            "method": "POST",
-            "path": "/pet/1",
-            "headers": {
-                "Content-Type": "application/x-www-form-urlencoded"
-            },
-            "body": {
-                "name": "Buddy",
-                "status": "available"
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 200,
-            "body": {
-                "message": "Pet updated successfully"
-            }
-        }
-    },
-    {
-        "test_name": "Update pet with missing name",
-        "request": {
-            "method": "POST",
-            "path": "/pet/2",
-            "headers": {
-                "Content-Type": "application/x-www-form-urlencoded"
-            },
-            "body": {
-                "status": "available"
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 405,
-            "body": {
-                "error": "Invalid input"
-            }
-        }
-    },
-    {
-        "test_name": "Update pet with invalid petId",
-        "request": {
-            "method": "POST",
-            "path": "/pet/abc",
-            "headers": {
-                "Content-Type": "application/x-www-form-urlencoded"
-            },
-            "body": {
-                "name": "Max",
-                "status": "available"
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 405,
-            "body": {
-                "error": "Invalid input"
-            }
-        }
-    },
-    {
-        "test_name": "Delete pet with valid petId",
-        "request": {
-            "method": "DELETE",
-            "path": "/pet/123",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {},
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 200,
-            "body": {}
-        }
-    },
-    {
-        "test_name": "Delete pet with invalid petId",
-        "request": {
-            "method": "DELETE",
-            "path": "/pet/abc",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {},
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 400,
-            "body": {
-                "error": "Invalid pet value"
-            }
-        }
-    },
-    {
-        "test_name": "Delete pet without petId",
-        "request": {
-            "method": "DELETE",
-            "path": "/pet/",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {},
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 404,
-            "body": {
-                "error": "Pet not found"
-            }
-        }
-    },
-    {
-        "test_name": "Upload image with valid petId and file",
-        "request": {
-            "method": "POST",
-            "path": "/pet/1/uploadImage",
-            "headers": {
-                "Content-Type": "multipart/form-data"
-            },
-            "body": {
-                "additionalMetadata": "Image of the pet",
-                "file": "binary_file_data"
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 200,
-            "body": {
-                "code": 0,
-                "type": "type",
-                "message": "message"
-            }
-        }
-    },
-    {
-        "test_name": "Upload image with missing petId",
-        "request": {
-            "method": "POST",
-            "path": "/pet//uploadImage",
-            "headers": {
-                "Content-Type": "multipart/form-data"
-            },
-            "body": {
-                "additionalMetadata": "Image of the pet",
-                "file": "binary_file_data"
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 400,
-            "body": {
-                "code": 400,
-                "type": "error",
-                "message": "petId is required"
-            }
-        }
-    },
-    {
-        "test_name": "Upload image without file",
-        "request": {
-            "method": "POST",
-            "path": "/pet/1/uploadImage",
-            "headers": {
-                "Content-Type": "multipart/form-data"
-            },
-            "body": {
-                "additionalMetadata": "Image of the pet"
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 400,
-            "body": {
-                "code": 400,
-                "type": "error",
-                "message": "file is required"
-            }
-        }
-    },
-    {
-        "test_name": "Get inventory successfully",
-        "request": {
-            "method": "GET",
-            "path": "/store/inventory",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {},
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 200,
-            "body": {}
-        }
-    },
-    {
-        "test_name": "Get inventory with no items",
-        "request": {
-            "method": "GET",
-            "path": "/store/inventory",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {},
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 200,
-            "body": {}
-        }
-    },
-    {
-        "test_name": "Get inventory with valid headers",
-        "request": {
-            "method": "GET",
-            "path": "/store/inventory",
-            "headers": {
-                "Content-Type": "application/json",
-                "Authorization": "Bearer valid_token"
-            },
-            "body": {},
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 200,
-            "body": {}
-        }
-    },
-    {
-        "test_name": "Place Order with Valid Data",
-        "request": {
-            "method": "POST",
-            "path": "/store/order",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "petId": 6,
-                "quantity": 1,
-                "shipDate": "2000-01-23T04:56:07.000+00:00",
-                "status": "placed",
-                "complete": false
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 200,
-            "body": {
-                "petId": 6,
-                "quantity": 1,
-                "id": 0,
-                "shipDate": "2000-01-23T04:56:07.000+00:00",
-                "complete": false,
-                "status": "placed"
-            }
-        }
-    },
-    {
-        "test_name": "Place Order with Missing Pet ID",
-        "request": {
-            "method": "POST",
-            "path": "/store/order",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "quantity": 1,
-                "shipDate": "2000-01-23T04:56:07.000+00:00",
-                "status": "placed",
-                "complete": false
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 400,
-            "body": {}
-        }
-    },
-    {
-        "test_name": "Place Order with Invalid Status",
-        "request": {
-            "method": "POST",
-            "path": "/store/order",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "petId": 6,
-                "quantity": 1,
-                "shipDate": "2000-01-23T04:56:07.000+00:00",
-                "status": "invalid_status",
-                "complete": false
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 400,
-            "body": {}
-        }
-    },
-    {
-        "test_name": "Valid order ID",
-        "request": {
-            "method": "GET",
-            "path": "/store/order/1",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {},
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 200,
-            "body": {
-                "id": 1,
-                "petId": 6,
-                "quantity": 1,
-                "shipDate": "2000-01-23T04:56:07.000+00:00",
-                "status": "placed",
-                "complete": false
-            }
-        }
-    },
-    {
-        "test_name": "Invalid order ID - too low",
-        "request": {
-            "method": "GET",
-            "path": "/store/order/0",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {},
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 400,
-            "body": {}
-        }
-    },
-    {
-        "test_name": "Invalid order ID - too high",
-        "request": {
-            "method": "GET",
-            "path": "/store/order/6",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {},
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 404,
-            "body": {}
-        }
-    },
-    {
-        "test_name": "Delete order with valid ID",
-        "request": {
-            "method": "DELETE",
-            "path": "/store/order/12345",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {},
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 200,
-            "body": {}
-        }
-    },
-    {
-        "test_name": "Delete order with invalid ID",
-        "request": {
-            "method": "DELETE",
-            "path": "/store/order/invalid_id",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {},
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 400,
-            "body": {
-                "error": "Invalid ID supplied"
-            }
-        }
-    },
-    {
-        "test_name": "Delete non-existing order",
-        "request": {
-            "method": "DELETE",
-            "path": "/store/order/99999",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {},
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 404,
-            "body": {
-                "error": "Order not found"
-            }
-        }
-    },
-    {
-        "test_name": "Create user with all valid fields",
-        "request": {
-            "method": "POST",
-            "path": "/user",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "id": 1,
-                "username": "testuser",
-                "firstName": "John",
-                "lastName": "Doe",
-                "email": "john.doe@example.com",
-                "password": "securepassword",
-                "phone": "1234567890",
-                "userStatus": 1
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 200,
-            "body": {}
-        }
-    },
-    {
-        "test_name": "Create user with missing required fields",
-        "request": {
-            "method": "POST",
-            "path": "/user",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "username": "testuser",
-                "firstName": "",
-                "lastName": "",
-                "email": "john.doe@example.com",
+                "address": "",
+                "email": "",
+                "name": "",
                 "password": "",
-                "phone": "1234567890",
-                "userStatus": 1
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 400,
-            "body": {
-                "error": "Missing required fields"
+                "phone": ""
             }
         }
     },
     {
-        "test_name": "Create user with invalid email format",
+        "test_name": "Get customer with valid name parameter",
         "request": {
-            "method": "POST",
-            "path": "/user",
+            "method": "GET",
+            "path": "/customer",
             "headers": {
                 "Content-Type": "application/json"
             },
             "body": {
-                "id": 2,
-                "username": "testuser2",
-                "firstName": "Jane",
-                "lastName": "Doe",
-                "email": "invalid-email",
-                "password": "securepassword",
-                "phone": "0987654321",
-                "userStatus": 2
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 400,
-            "body": {
-                "error": "Invalid email format"
-            }
-        }
-    },
-    {
-        "test_name": "Create users with valid data",
-        "request": {
-            "method": "POST",
-            "path": "/user/createWithArray",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "item_0": {
-                    "id": 1,
-                    "username": "user1",
-                    "firstName": "John",
-                    "lastName": "Doe",
-                    "email": "john.doe@example.com",
-                    "password": "password123",
-                    "phone": "1234567890",
-                    "userStatus": 1
-                }
+                "name": "John Doe"
             },
             "query": {}
         },
         "expected_response": {
             "status_code": 200,
-            "body": {}
-        }
-    },
-    {
-        "test_name": "Create users with missing required fields",
-        "request": {
-            "method": "POST",
-            "path": "/user/createWithArray",
-            "headers": {
-                "Content-Type": "application/json"
-            },
             "body": {
-                "item_0": {
-                    "username": "user2",
-                    "email": "user2@example.com"
-                }
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 400,
-            "body": {
-                "error": "Missing required fields"
-            }
-        }
-    },
-    {
-        "test_name": "Create users with invalid email format",
-        "request": {
-            "method": "POST",
-            "path": "/user/createWithArray",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "item_0": {
-                    "id": 3,
-                    "username": "user3",
-                    "firstName": "Alice",
-                    "lastName": "Smith",
-                    "email": "alice.smith@com",
-                    "password": "password123",
-                    "phone": "0987654321",
-                    "userStatus": 1
-                }
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 400,
-            "body": {
-                "error": "Invalid email format"
-            }
-        }
-    },
-    {
-        "test_name": "Create users with valid data",
-        "request": {
-            "method": "POST",
-            "path": "/user/createWithList",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "item_0": {
-                    "id": 1,
-                    "username": "user1",
-                    "firstName": "First",
-                    "lastName": "User",
-                    "email": "user1@example.com",
-                    "password": "password1",
-                    "phone": "1234567890",
-                    "userStatus": 1
+                "_links": {
+                    "empty": false
                 },
-                "item_1": {
-                    "id": 2,
-                    "username": "user2",
-                    "firstName": "Second",
-                    "lastName": "User",
-                    "email": "user2@example.com",
-                    "password": "password2",
-                    "phone": "0987654321",
-                    "userStatus": 1
-                }
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 200,
-            "body": {}
-        }
-    },
-    {
-        "test_name": "Create users with missing required fields",
-        "request": {
-            "method": "POST",
-            "path": "/user/createWithList",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "item_0": {
-                    "id": 3,
-                    "username": "user3",
-                    "firstName": "",
-                    "lastName": "User",
-                    "email": "user3@example.com",
-                    "password": "password3",
-                    "phone": "1231231234",
-                    "userStatus": 1
-                }
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 400,
-            "body": {
-                "error": "First name is required"
+                "address": "123 Main St",
+                "email": "john.doe@example.com",
+                "name": "John Doe",
+                "password": "securePass1",
+                "phone": "+123 456 789 00 11"
             }
         }
     },
     {
-        "test_name": "Create users with invalid email format",
-        "request": {
-            "method": "POST",
-            "path": "/user/createWithList",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "item_0": {
-                    "id": 4,
-                    "username": "user4",
-                    "firstName": "Fourth",
-                    "lastName": "User",
-                    "email": "user4example.com",
-                    "password": "password4",
-                    "phone": "3213214321",
-                    "userStatus": 1
-                }
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 400,
-            "body": {
-                "error": "Invalid email format"
-            }
-        }
-    },
-    {
-        "test_name": "Successful login with valid credentials",
+        "test_name": "Get customer with invalid name parameter",
         "request": {
             "method": "GET",
-            "path": "/user/login",
+            "path": "/customer",
             "headers": {
                 "Content-Type": "application/json"
             },
             "body": {
-                "username": "validUser",
-                "password": "validPassword"
+                "name": "Invalid@Name"
             },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 200,
-            "body": {
-                "message": "Login successful"
-            }
-        }
-    },
-    {
-        "test_name": "Login attempt with invalid username",
-        "request": {
-            "method": "GET",
-            "path": "/user/login",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "username": "invalidUser",
-                "password": "validPassword"
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 400,
-            "body": {
-                "error": "Invalid username/password supplied"
-            }
-        }
-    },
-    {
-        "test_name": "Login attempt with missing password",
-        "request": {
-            "method": "GET",
-            "path": "/user/login",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "username": "validUser"
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 400,
-            "body": {
-                "error": "Invalid username/password supplied"
-            }
-        }
-    },
-    {
-        "test_name": "Successful logout",
-        "request": {
-            "method": "GET",
-            "path": "/user/logout",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {},
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 200,
-            "body": {
-                "message": "successful operation"
-            }
-        }
-    },
-    {
-        "test_name": "Logout without session",
-        "request": {
-            "method": "GET",
-            "path": "/user/logout",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {},
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 200,
-            "body": {
-                "message": "successful operation"
-            }
-        }
-    },
-    {
-        "test_name": "Logout while already logged out",
-        "request": {
-            "method": "GET",
-            "path": "/user/logout",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {},
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 200,
-            "body": {
-                "message": "successful operation"
-            }
-        }
-    },
-    {
-        "test_name": "Get user with valid username",
-        "request": {
-            "method": "GET",
-            "path": "/user/user1",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {},
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 200,
-            "body": {
-                "id": 0,
-                "username": "user1",
-                "firstName": "firstName",
-                "lastName": "lastName",
-                "email": "email",
-                "password": "password",
-                "phone": "phone",
-                "userStatus": 6
-            }
-        }
-    },
-    {
-        "test_name": "Get user with invalid username",
-        "request": {
-            "method": "GET",
-            "path": "/user/invalidUser",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {},
             "query": {}
         },
         "expected_response": {
@@ -1288,100 +70,10 @@
         }
     },
     {
-        "test_name": "Get user with missing username parameter",
+        "test_name": "Get cart with no query parameters",
         "request": {
             "method": "GET",
-            "path": "/user/",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {},
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 400,
-            "body": {}
-        }
-    },
-    {
-        "test_name": "Update user with valid data",
-        "request": {
-            "method": "PUT",
-            "path": "/user/johndoe",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "id": 1,
-                "username": "johndoe",
-                "firstName": "John",
-                "lastName": "Doe",
-                "email": "johndoe@example.com",
-                "password": "securepassword",
-                "phone": "1234567890",
-                "userStatus": 1
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 200,
-            "body": {
-                "message": "User updated successfully"
-            }
-        }
-    },
-    {
-        "test_name": "Update user with missing required fields",
-        "request": {
-            "method": "PUT",
-            "path": "/user/johndoe",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "username": "johndoe"
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 400,
-            "body": {
-                "error": "Invalid user supplied"
-            }
-        }
-    },
-    {
-        "test_name": "Update non-existent user",
-        "request": {
-            "method": "PUT",
-            "path": "/user/nonexistentuser",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "id": 1,
-                "username": "nonexistentuser",
-                "firstName": "Jane",
-                "lastName": "Doe",
-                "email": "janedoe@example.com",
-                "password": "securepassword",
-                "phone": "0987654321",
-                "userStatus": 1
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 404,
-            "body": {
-                "error": "User not found"
-            }
-        }
-    },
-    {
-        "test_name": "Delete user with valid username",
-        "request": {
-            "method": "DELETE",
-            "path": "/user/johndoe",
+            "path": "/customer/cart",
             "headers": {
                 "Content-Type": "application/json"
             },
@@ -1390,490 +82,766 @@
         },
         "expected_response": {
             "status_code": 200,
-            "body": {}
-        }
-    },
-    {
-        "test_name": "Delete user with invalid username format",
-        "request": {
-            "method": "DELETE",
-            "path": "/user/1234",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {},
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 400,
             "body": {
-                "error": "Invalid username supplied"
-            }
-        }
-    },
-    {
-        "test_name": "Delete non-existent user",
-        "request": {
-            "method": "DELETE",
-            "path": "/user/nonexistentuser",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {},
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 404,
-            "body": {
-                "error": "User not found"
-            }
-        }
-    },
-    {
-        "test_name": "Update pet with valid data",
-        "request": {
-            "method": "PUT",
-            "path": "/pet",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "id": 1,
-                "name": "doggie",
-                "photoUrls": [
-                    "url1",
-                    "url2"
-                ],
-                "category": {
-                    "id": 6,
-                    "name": "Dogs"
+                "_links": {
+                    "empty": false
                 },
-                "tags": [
+                "cartItems": [],
+                "deliveryCost": 0,
+                "deliveryIncluded": false,
+                "empty": true,
+                "productsCost": 0.0,
+                "totalCost": 0.0,
+                "totalItems": 0,
+                "user": ""
+            }
+        }
+    },
+    {
+        "test_name": "Get cart with a specific user name",
+        "request": {
+            "method": "GET",
+            "path": "/customer/cart",
+            "headers": {
+                "Content-Type": "application/json"
+            },
+            "body": {
+                "name": "JohnDoe"
+            },
+            "query": {}
+        },
+        "expected_response": {
+            "status_code": 200,
+            "body": {
+                "_links": {
+                    "empty": false
+                },
+                "cartItems": [
                     {
-                        "id": 1,
-                        "name": "Tag1"
-                    }
-                ],
-                "status": "available"
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 200,
-            "body": {}
-        }
-    },
-    {
-        "test_name": "Update pet with missing name",
-        "request": {
-            "method": "PUT",
-            "path": "/pet",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "id": 2,
-                "photoUrls": [
-                    "url1",
-                    "url2"
-                ],
-                "category": {
-                    "id": 6,
-                    "name": "Cats"
-                },
-                "tags": [],
-                "status": "available"
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 405,
-            "body": {}
-        }
-    },
-    {
-        "test_name": "Update pet with invalid status",
-        "request": {
-            "method": "PUT",
-            "path": "/pet",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "id": 3,
-                "name": "doggie",
-                "photoUrls": [
-                    "url1",
-                    "url2"
-                ],
-                "category": {
-                    "id": 6,
-                    "name": "Birds"
-                },
-                "tags": [],
-                "status": "invalid_status"
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 405,
-            "body": {}
-        }
-    },
-    {
-        "test_name": "Add valid pet",
-        "request": {
-            "method": "POST",
-            "path": "/pet",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "name": "doggie",
-                "photoUrls": [
-                    "url1",
-                    "url2"
-                ],
-                "category": {
-                    "id": 6,
-                    "name": "dog"
-                },
-                "tags": [
-                    {
-                        "id": 1,
-                        "name": "tag1"
-                    }
-                ],
-                "status": "available"
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 200,
-            "body": {
-                "message": "Pet added successfully"
-            }
-        }
-    },
-    {
-        "test_name": "Add pet with missing name",
-        "request": {
-            "method": "POST",
-            "path": "/pet",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "photoUrls": [
-                    "url1",
-                    "url2"
-                ],
-                "category": {
-                    "id": 6,
-                    "name": "dog"
-                },
-                "tags": [
-                    {
-                        "id": 1,
-                        "name": "tag1"
-                    }
-                ],
-                "status": "available"
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 405,
-            "body": {
-                "message": "Invalid input"
-            }
-        }
-    },
-    {
-        "test_name": "Add pet with invalid status",
-        "request": {
-            "method": "POST",
-            "path": "/pet",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "name": "doggie",
-                "photoUrls": [
-                    "url1",
-                    "url2"
-                ],
-                "category": {
-                    "id": 6,
-                    "name": "dog"
-                },
-                "tags": [
-                    {
-                        "id": 1,
-                        "name": "tag1"
-                    }
-                ],
-                "status": "unknown"
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 405,
-            "body": {
-                "message": "Invalid input"
-            }
-        }
-    },
-    {
-        "test_name": "Get pets by available status",
-        "request": {
-            "method": "GET",
-            "path": "/pet/findByStatus",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "status": [
-                    "available"
-                ]
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 200,
-            "body": [
-                {
-                    "id": 1,
-                    "category": {
-                        "id": 6,
-                        "name": "Dog"
-                    },
-                    "name": "Buddy",
-                    "photoUrls": [
-                        "url1",
-                        "url2"
-                    ],
-                    "tags": [
-                        {
-                            "id": 1,
-                            "name": "tag1"
-                        }
-                    ],
-                    "status": "available"
-                }
-            ]
-        }
-    },
-    {
-        "test_name": "Get pets by pending status",
-        "request": {
-            "method": "GET",
-            "path": "/pet/findByStatus",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "status": [
-                    "pending"
-                ]
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 200,
-            "body": [
-                {
-                    "id": 2,
-                    "category": {
-                        "id": 7,
-                        "name": "Cat"
-                    },
-                    "name": "Whiskers",
-                    "photoUrls": [
-                        "url3",
-                        "url4"
-                    ],
-                    "tags": [
-                        {
-                            "id": 2,
-                            "name": "tag2"
-                        }
-                    ],
-                    "status": "pending"
-                }
-            ]
-        }
-    },
-    {
-        "test_name": "Get pets by sold status",
-        "request": {
-            "method": "GET",
-            "path": "/pet/findByStatus",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "status": [
-                    "sold"
-                ]
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 200,
-            "body": [
-                {
-                    "id": 3,
-                    "category": {
-                        "id": 8,
-                        "name": "Fish"
-                    },
-                    "name": "Goldie",
-                    "photoUrls": [
-                        "url5",
-                        "url6"
-                    ],
-                    "tags": [
-                        {
-                            "id": 3,
-                            "name": "tag3"
-                        }
-                    ],
-                    "status": "sold"
-                }
-            ]
-        }
-    },
-    {
-        "test_name": "Invalid status value",
-        "request": {
-            "method": "GET",
-            "path": "/pet/findByStatus",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "status": [
-                    "invalid_status"
-                ]
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 400,
-            "body": {}
-        }
-    },
-    {
-        "test_name": "Get pets by a single valid tag",
-        "request": {
-            "method": "GET",
-            "path": "/pet/findByTags",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "tags": [
-                    "cute"
-                ]
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 200,
-            "body": [
-                {
-                    "id": 1,
-                    "category": {
-                        "id": 6,
-                        "name": "Dog"
-                    },
-                    "name": "doggie",
-                    "photoUrls": [
-                        "url1",
-                        "url2"
-                    ],
-                    "tags": [
-                        {
-                            "id": 1,
-                            "name": "cute"
-                        }
-                    ],
-                    "status": "available"
-                }
-            ]
-        }
-    },
-    {
-        "test_name": "Get pets by multiple valid tags",
-        "request": {
-            "method": "GET",
-            "path": "/pet/findByTags",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "tags": [
-                    "cute",
-                    "friendly"
-                ]
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 200,
-            "body": [
-                {
-                    "id": 2,
-                    "category": {
-                        "id": 7,
-                        "name": "Cat"
-                    },
-                    "name": "kitten",
-                    "photoUrls": [
-                        "url3",
-                        "url4"
-                    ],
-                    "tags": [
-                        {
-                            "id": 2,
-                            "name": "cute"
+                        "_links": {
+                            "empty": false
                         },
-                        {
-                            "id": 3,
-                            "name": "friendly"
-                        }
-                    ],
-                    "status": "available"
+                        "productId": 1,
+                        "quantity": 2
+                    }
+                ],
+                "deliveryCost": 5,
+                "deliveryIncluded": true,
+                "empty": false,
+                "productsCost": 50.0,
+                "totalCost": 55.0,
+                "totalItems": 1,
+                "user": "JohnDoe"
+            }
+        }
+    },
+    {
+        "test_name": "Get cart unauthorized access",
+        "request": {
+            "method": "GET",
+            "path": "/customer/cart",
+            "headers": {
+                "Content-Type": "application/json"
+            },
+            "body": {},
+            "query": {}
+        },
+        "expected_response": {
+            "status_code": 401,
+            "body": {}
+        }
+    },
+    {
+        "test_name": "Add item to cart successfully",
+        "request": {
+            "method": "PUT",
+            "path": "/customer/cart",
+            "headers": {
+                "Content-Type": "application/json"
+            },
+            "body": {
+                "name": "Test Item",
+                "_links": [],
+                "productId": 123,
+                "quantity": 2
+            },
+            "query": {}
+        },
+        "expected_response": {
+            "status_code": 200,
+            "body": {
+                "totalItems": 1,
+                "totalCost": 29.99,
+                "cartItems": [
+                    {
+                        "productId": 123,
+                        "quantity": 2
+                    }
+                ]
+            }
+        }
+    },
+    {
+        "test_name": "Unauthorized access when adding item to cart",
+        "request": {
+            "method": "PUT",
+            "path": "/customer/cart",
+            "headers": {
+                "Content-Type": "application/json"
+            },
+            "body": {
+                "_links": [],
+                "productId": 456,
+                "quantity": 1
+            },
+            "query": {}
+        },
+        "expected_response": {
+            "status_code": 401,
+            "body": {}
+        }
+    },
+    {
+        "test_name": "Add item to cart with invalid product ID",
+        "request": {
+            "method": "PUT",
+            "path": "/customer/cart",
+            "headers": {
+                "Content-Type": "application/json"
+            },
+            "body": {
+                "_links": [],
+                "productId": -1,
+                "quantity": 1
+            },
+            "query": {}
+        },
+        "expected_response": {
+            "status_code": 404,
+            "body": {}
+        }
+    },
+    {
+        "test_name": "Clear cart successfully without parameters",
+        "request": {
+            "method": "DELETE",
+            "path": "/customer/cart",
+            "headers": {
+                "Content-Type": "application/json"
+            },
+            "body": {},
+            "query": {}
+        },
+        "expected_response": {
+            "status_code": 200,
+            "body": {
+                "empty": true,
+                "totalItems": 0,
+                "cartItems": [],
+                "deliveryCost": 0,
+                "deliveryIncluded": false,
+                "productsCost": 0,
+                "totalCost": 0,
+                "user": "",
+                "_links": {
+                    "empty": true
+                }
+            }
+        }
+    },
+    {
+        "test_name": "Clear cart with user parameter",
+        "request": {
+            "method": "DELETE",
+            "path": "/customer/cart",
+            "headers": {
+                "Content-Type": "application/json"
+            },
+            "body": {
+                "name": "testUser"
+            },
+            "query": {}
+        },
+        "expected_response": {
+            "status_code": 200,
+            "body": {
+                "empty": true,
+                "totalItems": 0,
+                "cartItems": [],
+                "deliveryCost": 0,
+                "deliveryIncluded": false,
+                "productsCost": 0,
+                "totalCost": 0,
+                "user": "testUser",
+                "_links": {
+                    "empty": true
+                }
+            }
+        }
+    },
+    {
+        "test_name": "Clear cart and expect no content response",
+        "request": {
+            "method": "DELETE",
+            "path": "/customer/cart",
+            "headers": {
+                "Content-Type": "application/json"
+            },
+            "body": {},
+            "query": {}
+        },
+        "expected_response": {
+            "status_code": 204,
+            "body": {}
+        }
+    },
+    {
+        "test_name": "Set delivery with included true",
+        "request": {
+            "method": "PUT",
+            "path": "/customer/cart/delivery",
+            "headers": {
+                "Content-Type": "application/json"
+            },
+            "body": {
+                "included": true,
+                "name": "Express Delivery"
+            },
+            "query": {}
+        },
+        "expected_response": {
+            "status_code": 200,
+            "body": {
+                "deliveryIncluded": true,
+                "totalCost": 50.0,
+                "empty": false,
+                "totalItems": 3,
+                "user": "test_user"
+            }
+        }
+    },
+    {
+        "test_name": "Set delivery with included false",
+        "request": {
+            "method": "PUT",
+            "path": "/customer/cart/delivery",
+            "headers": {
+                "Content-Type": "application/json"
+            },
+            "body": {
+                "included": false
+            },
+            "query": {}
+        },
+        "expected_response": {
+            "status_code": 200,
+            "body": {
+                "deliveryIncluded": false,
+                "totalCost": 30.0,
+                "empty": false,
+                "totalItems": 2,
+                "user": "test_user"
+            }
+        }
+    },
+    {
+        "test_name": "Unauthorized access",
+        "request": {
+            "method": "PUT",
+            "path": "/customer/cart/delivery",
+            "headers": {
+                "Content-Type": "application/json"
+            },
+            "body": {
+                "included": true
+            },
+            "query": {}
+        },
+        "expected_response": {
+            "status_code": 401,
+            "body": {}
+        }
+    },
+    {
+        "test_name": "Successful payment with valid card number",
+        "request": {
+            "method": "POST",
+            "path": "/customer/cart/pay",
+            "headers": {
+                "Content-Type": "application/json"
+            },
+            "body": {
+                "card": {
+                    "ccNumber": "4111111111111111"
+                }
+            },
+            "query": {}
+        },
+        "expected_response": {
+            "status_code": 201,
+            "body": {
+                "billNumber": 123456,
+                "dateCreated": "2023-10-01T12:00:00Z",
+                "deliveryCost": 5,
+                "deliveryIncluded": true,
+                "executed": true,
+                "id": 1,
+                "payed": true,
+                "productsCost": 50.0,
+                "totalCost": 55.0,
+                "userAccount": "user@example.com",
+                "_links": {
+                    "empty": false
+                }
+            }
+        }
+    },
+    {
+        "test_name": "Unauthorized access without valid token",
+        "request": {
+            "method": "POST",
+            "path": "/customer/cart/pay",
+            "headers": {
+                "Content-Type": "application/json"
+            },
+            "body": {
+                "card": {
+                    "ccNumber": "4111111111111111"
+                }
+            },
+            "query": {}
+        },
+        "expected_response": {
+            "status_code": 401,
+            "body": {}
+        }
+    },
+    {
+        "test_name": "Payment with invalid card number format",
+        "request": {
+            "method": "POST",
+            "path": "/customer/cart/pay",
+            "headers": {
+                "Content-Type": "application/json"
+            },
+            "body": {
+                "card": {
+                    "ccNumber": "12345"
+                }
+            },
+            "query": {}
+        },
+        "expected_response": {
+            "status_code": 403,
+            "body": {}
+        }
+    },
+    {
+        "test_name": "Get all contacts without query parameter",
+        "request": {
+            "method": "GET",
+            "path": "/customer/contacts",
+            "headers": {
+                "Content-Type": "application/json"
+            },
+            "body": {},
+            "query": {}
+        },
+        "expected_response": {
+            "status_code": 200,
+            "body": {
+                "_links": {
+                    "empty": false
+                },
+                "address": "123 Main St",
+                "phone": "+123 456 789 01 23"
+            }
+        }
+    },
+    {
+        "test_name": "Get contacts with name query parameter",
+        "request": {
+            "method": "GET",
+            "path": "/customer/contacts",
+            "headers": {
+                "Content-Type": "application/json"
+            },
+            "body": {
+                "name": "John Doe"
+            },
+            "query": {}
+        },
+        "expected_response": {
+            "status_code": 200,
+            "body": {
+                "_links": {
+                    "empty": false
+                },
+                "address": "456 Elm St",
+                "phone": "+987 654 321 00 11"
+            }
+        }
+    },
+    {
+        "test_name": "Unauthorized access to contacts",
+        "request": {
+            "method": "GET",
+            "path": "/customer/contacts",
+            "headers": {
+                "Authorization": "Bearer invalid_token",
+                "Content-Type": "application/json"
+            },
+            "body": {},
+            "query": {}
+        },
+        "expected_response": {
+            "status_code": 401,
+            "body": {}
+        }
+    },
+    {
+        "test_name": "Forbidden access to contacts",
+        "request": {
+            "method": "GET",
+            "path": "/customer/contacts",
+            "headers": {
+                "Authorization": "Bearer no_access_token",
+                "Content-Type": "application/json"
+            },
+            "body": {},
+            "query": {}
+        },
+        "expected_response": {
+            "status_code": 403,
+            "body": {}
+        }
+    },
+    {
+        "test_name": "Not Found for non-existent endpoint",
+        "request": {
+            "method": "GET",
+            "path": "/customer/nonexistent",
+            "headers": {
+                "Content-Type": "application/json"
+            },
+            "body": {},
+            "query": {}
+        },
+        "expected_response": {
+            "status_code": 404,
+            "body": {}
+        }
+    },
+    {
+        "test_name": "Update contacts with valid data",
+        "request": {
+            "method": "PUT",
+            "path": "/customer/contacts",
+            "headers": {
+                "Content-Type": "application/json"
+            },
+            "body": {
+                "_links": [
+                    {
+                        "href": "http://example.com/contact/1",
+                        "rel": {
+                            "title": "LinkRelation"
+                        },
+                        "title": "Contact 1"
+                    }
+                ],
+                "address": "123 Main St",
+                "phone": "+123 456 789 00"
+            },
+            "query": {}
+        },
+        "expected_response": {
+            "status_code": 200,
+            "body": {
+                "_links": {
+                    "empty": false
+                },
+                "address": "123 Main St",
+                "phone": "+123 456 789 00"
+            }
+        }
+    },
+    {
+        "test_name": "Update contacts with invalid phone format",
+        "request": {
+            "method": "PUT",
+            "path": "/customer/contacts",
+            "headers": {
+                "Content-Type": "application/json"
+            },
+            "body": {
+                "_links": [],
+                "address": "456 Elm St",
+                "phone": "invalid_phone"
+            },
+            "query": {}
+        },
+        "expected_response": {
+            "status_code": 400,
+            "body": {
+                "error": "Invalid phone format"
+            }
+        }
+    },
+    {
+        "test_name": "Update contacts with missing required field",
+        "request": {
+            "method": "PUT",
+            "path": "/customer/contacts",
+            "headers": {
+                "Content-Type": "application/json"
+            },
+            "body": {
+                "_links": [],
+                "address": "789 Oak St"
+            },
+            "query": {}
+        },
+        "expected_response": {
+            "status_code": 400,
+            "body": {
+                "error": "Phone number is required"
+            }
+        }
+    },
+    {
+        "test_name": "Get orders without query parameter",
+        "request": {
+            "method": "GET",
+            "path": "/customer/orders",
+            "headers": {
+                "Content-Type": "application/json"
+            },
+            "body": {},
+            "query": {}
+        },
+        "expected_response": {
+            "status_code": 200,
+            "body": {
+                "items": []
+            }
+        }
+    },
+    {
+        "test_name": "Get orders with valid name query parameter",
+        "request": {
+            "method": "GET",
+            "path": "/customer/orders",
+            "headers": {
+                "Content-Type": "application/json"
+            },
+            "body": {
+                "name": "John Doe"
+            },
+            "query": {}
+        },
+        "expected_response": {
+            "status_code": 200,
+            "body": {
+                "items": [
+                    {
+                        "_links": {
+                            "empty": false
+                        },
+                        "billNumber": 12345,
+                        "dateCreated": "2023-10-01T12:00:00Z",
+                        "deliveryCost": 5,
+                        "deliveryIncluded": true,
+                        "executed": true,
+                        "id": 1,
+                        "payed": true,
+                        "productsCost": 50.0,
+                        "totalCost": 55.0,
+                        "userAccount": "john.doe@example.com"
+                    }
+                ]
+            }
+        }
+    },
+    {
+        "test_name": "Get orders with unauthorized access",
+        "request": {
+            "method": "GET",
+            "path": "/customer/orders",
+            "headers": {
+                "Authorization": "Bearer invalid_token",
+                "Content-Type": "application/json"
+            },
+            "body": {},
+            "query": {}
+        },
+        "expected_response": {
+            "status_code": 401,
+            "body": {}
+        }
+    },
+    {
+        "test_name": "Get order with valid orderId",
+        "request": {
+            "method": "GET",
+            "path": "/customer/orders/12345",
+            "headers": {
+                "Content-Type": "application/json"
+            },
+            "body": {},
+            "query": {}
+        },
+        "expected_response": {
+            "status_code": 200,
+            "body": {
+                "_links": {
+                    "empty": false
+                },
+                "billNumber": 98765,
+                "dateCreated": "2023-10-01T12:00:00Z",
+                "deliveryCost": 5,
+                "deliveryIncluded": true,
+                "executed": false,
+                "id": 12345,
+                "payed": true,
+                "productsCost": 50.0,
+                "totalCost": 55.0,
+                "userAccount": "user@example.com"
+            }
+        }
+    },
+    {
+        "test_name": "Get order with non-existent orderId",
+        "request": {
+            "method": "GET",
+            "path": "/customer/orders/99999",
+            "headers": {
+                "Content-Type": "application/json"
+            },
+            "body": {},
+            "query": {}
+        },
+        "expected_response": {
+            "status_code": 404,
+            "body": {}
+        }
+    },
+    {
+        "test_name": "Get order without required orderId",
+        "request": {
+            "method": "GET",
+            "path": "/customer/orders/",
+            "headers": {
+                "Content-Type": "application/json"
+            },
+            "body": {},
+            "query": {}
+        },
+        "expected_response": {
+            "status_code": 404,
+            "body": {}
+        }
+    },
+    {
+        "test_name": "Get order with valid orderId and query parameter",
+        "request": {
+            "method": "GET",
+            "path": "/customer/orders/12345",
+            "headers": {
+                "Content-Type": "application/json"
+            },
+            "body": {
+                "name": "John Doe"
+            },
+            "query": {}
+        },
+        "expected_response": {
+            "status_code": 200,
+            "body": {
+                "_links": {
+                    "empty": false
+                },
+                "billNumber": 98765,
+                "dateCreated": "2023-10-01T12:00:00Z",
+                "deliveryCost": 5,
+                "deliveryIncluded": true,
+                "executed": false,
+                "id": 12345,
+                "payed": true,
+                "productsCost": 50.0,
+                "totalCost": 55.0,
+                "userAccount": "user@example.com"
+            }
+        }
+    },
+    {
+        "test_name": "Get all products successfully",
+        "request": {
+            "method": "GET",
+            "path": "/products",
+            "headers": {
+                "Content-Type": "application/json"
+            },
+            "body": {},
+            "query": {}
+        },
+        "expected_response": {
+            "status_code": 200,
+            "body": [
+                {
+                    "_links": {
+                        "empty": false
+                    },
+                    "age": 5,
+                    "alcohol": 40.0,
+                    "available": true,
+                    "description": "A fine whiskey.",
+                    "distillery": "Whiskey Distillery",
+                    "name": "Fine Whiskey",
+                    "price": 50.0,
+                    "productId": 1,
+                    "volume": 750
                 }
             ]
         }
     },
     {
-        "test_name": "Get pets with invalid tag",
+        "test_name": "Unauthorized access",
         "request": {
             "method": "GET",
-            "path": "/pet/findByTags",
+            "path": "/products",
             "headers": {
                 "Content-Type": "application/json"
             },
-            "body": {
-                "tags": [
-                    "invalidTag"
-                ]
-            },
+            "body": {},
             "query": {}
         },
         "expected_response": {
-            "status_code": 400,
+            "status_code": 401,
             "body": {}
         }
     },
     {
-        "test_name": "Get pet by valid ID",
+        "test_name": "Forbidden access",
         "request": {
             "method": "GET",
-            "path": "/pet/1",
+            "path": "/products",
+            "headers": {
+                "Content-Type": "application/json"
+            },
+            "body": {},
+            "query": {}
+        },
+        "expected_response": {
+            "status_code": 403,
+            "body": {}
+        }
+    },
+    {
+        "test_name": "Get product with valid productId",
+        "request": {
+            "method": "GET",
+            "path": "/products/1",
             "headers": {
                 "Content-Type": "application/json"
             },
@@ -1883,31 +851,26 @@
         "expected_response": {
             "status_code": 200,
             "body": {
-                "id": 1,
-                "name": "doggie",
-                "photoUrls": [
-                    "photoUrl1",
-                    "photoUrl2"
-                ],
-                "category": {
-                    "id": 6,
-                    "name": "name"
-                },
-                "tags": [
-                    {
-                        "id": 1,
-                        "name": "tag1"
-                    }
-                ],
-                "status": "available"
+                "alcohol": 40.0,
+                "price": 25.99,
+                "volume": 750,
+                "productId": 1,
+                "name": "Product Name",
+                "description": "Product Description",
+                "distillery": "Distillery Name",
+                "available": true,
+                "age": 5,
+                "_links": {
+                    "empty": false
+                }
             }
         }
     },
     {
-        "test_name": "Get pet by ID that does not exist",
+        "test_name": "Get product with non-existent productId",
         "request": {
             "method": "GET",
-            "path": "/pet/999",
+            "path": "/products/9999",
             "headers": {
                 "Content-Type": "application/json"
             },
@@ -1920,383 +883,10 @@
         }
     },
     {
-        "test_name": "Get pet with invalid ID format",
+        "test_name": "Get product without productId",
         "request": {
             "method": "GET",
-            "path": "/pet/abc",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {},
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 400,
-            "body": {}
-        }
-    },
-    {
-        "test_name": "Update pet with valid data",
-        "request": {
-            "method": "POST",
-            "path": "/pet/1",
-            "headers": {
-                "Content-Type": "application/x-www-form-urlencoded"
-            },
-            "body": {
-                "name": "Buddy",
-                "status": "available"
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 200,
-            "body": {
-                "message": "Pet updated successfully"
-            }
-        }
-    },
-    {
-        "test_name": "Update pet with missing name",
-        "request": {
-            "method": "POST",
-            "path": "/pet/2",
-            "headers": {
-                "Content-Type": "application/x-www-form-urlencoded"
-            },
-            "body": {
-                "status": "available"
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 405,
-            "body": {
-                "error": "Invalid input"
-            }
-        }
-    },
-    {
-        "test_name": "Update pet with invalid petId",
-        "request": {
-            "method": "POST",
-            "path": "/pet/abc",
-            "headers": {
-                "Content-Type": "application/x-www-form-urlencoded"
-            },
-            "body": {
-                "name": "Max",
-                "status": "sold"
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 405,
-            "body": {
-                "error": "Invalid input"
-            }
-        }
-    },
-    {
-        "test_name": "Delete pet with valid petId",
-        "request": {
-            "method": "DELETE",
-            "path": "/pet/1",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {},
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 200,
-            "body": {}
-        }
-    },
-    {
-        "test_name": "Delete pet with invalid petId",
-        "request": {
-            "method": "DELETE",
-            "path": "/pet/invalidId",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {},
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 400,
-            "body": {
-                "message": "Invalid pet value"
-            }
-        }
-    },
-    {
-        "test_name": "Delete pet without petId",
-        "request": {
-            "method": "DELETE",
-            "path": "/pet/",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {},
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 400,
-            "body": {
-                "message": "Invalid pet value"
-            }
-        }
-    },
-    {
-        "test_name": "Upload image for existing pet",
-        "request": {
-            "method": "POST",
-            "path": "/pet/123/uploadImage",
-            "headers": {
-                "Content-Type": "multipart/form-data"
-            },
-            "body": {
-                "additionalMetadata": "Image of my pet",
-                "file": "binary_file_data"
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 200,
-            "body": {
-                "code": 0,
-                "type": "image",
-                "message": "Image uploaded successfully"
-            }
-        }
-    },
-    {
-        "test_name": "Upload image without additional metadata",
-        "request": {
-            "method": "POST",
-            "path": "/pet/456/uploadImage",
-            "headers": {
-                "Content-Type": "multipart/form-data"
-            },
-            "body": {
-                "file": "binary_file_data"
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 200,
-            "body": {
-                "code": 0,
-                "type": "image",
-                "message": "Image uploaded successfully"
-            }
-        }
-    },
-    {
-        "test_name": "Upload image for non-existent pet",
-        "request": {
-            "method": "POST",
-            "path": "/pet/999/uploadImage",
-            "headers": {
-                "Content-Type": "multipart/form-data"
-            },
-            "body": {
-                "additionalMetadata": "Image of a non-existent pet",
-                "file": "binary_file_data"
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 404,
-            "body": {
-                "code": 1,
-                "type": "error",
-                "message": "Pet not found"
-            }
-        }
-    },
-    {
-        "test_name": "Valid Inventory Retrieval",
-        "request": {
-            "method": "GET",
-            "path": "/store/inventory",
-            "headers": {
-                "Accept": "application/json",
-                "Content-Type": "application/json"
-            },
-            "body": {},
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 200,
-            "body": {}
-        }
-    },
-    {
-        "test_name": "Inventory Returns Non-empty Object",
-        "request": {
-            "method": "GET",
-            "path": "/store/inventory",
-            "headers": {
-                "Accept": "application/json",
-                "Content-Type": "application/json"
-            },
-            "body": {},
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 200,
-            "body": {
-                "item1": 10,
-                "item2": 5
-            }
-        }
-    },
-    {
-        "test_name": "Inventory Returns Correct Data Types",
-        "request": {
-            "method": "GET",
-            "path": "/store/inventory",
-            "headers": {
-                "Accept": "application/json",
-                "Content-Type": "application/json"
-            },
-            "body": {},
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 200,
-            "body": {
-                "itemA": 15,
-                "itemB": 20
-            }
-        }
-    },
-    {
-        "test_name": "Place order successfully",
-        "request": {
-            "method": "POST",
-            "path": "/store/order",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "petId": 6,
-                "quantity": 1,
-                "shipDate": "2000-01-23T04:56:07.000+00:00",
-                "status": "placed",
-                "complete": false
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 200,
-            "body": {
-                "id": 0,
-                "petId": 6,
-                "quantity": 1,
-                "shipDate": "2000-01-23T04:56:07.000+00:00",
-                "status": "placed",
-                "complete": false
-            }
-        }
-    },
-    {
-        "test_name": "Place order with missing petId",
-        "request": {
-            "method": "POST",
-            "path": "/store/order",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "quantity": 1,
-                "shipDate": "2000-01-23T04:56:07.000+00:00",
-                "status": "placed",
-                "complete": false
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 400,
-            "body": {}
-        }
-    },
-    {
-        "test_name": "Place order with invalid status",
-        "request": {
-            "method": "POST",
-            "path": "/store/order",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "petId": 6,
-                "quantity": 1,
-                "shipDate": "2000-01-23T04:56:07.000+00:00",
-                "status": "invalid_status",
-                "complete": false
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 400,
-            "body": {}
-        }
-    },
-    {
-        "test_name": "Fetch existing order with valid ID",
-        "request": {
-            "method": "GET",
-            "path": "/store/order/1",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {},
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 200,
-            "body": {
-                "id": 1,
-                "petId": 6,
-                "quantity": 1,
-                "shipDate": "2000-01-23T04:56:07.000+00:00",
-                "status": "placed",
-                "complete": false
-            }
-        }
-    },
-    {
-        "test_name": "Fetch order with minimum ID",
-        "request": {
-            "method": "GET",
-            "path": "/store/order/1",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {},
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 200,
-            "body": {
-                "id": 1,
-                "petId": 6,
-                "quantity": 1,
-                "shipDate": "2000-01-23T04:56:07.000+00:00",
-                "status": "placed",
-                "complete": false
-            }
-        }
-    },
-    {
-        "test_name": "Fetch order with ID above maximum",
-        "request": {
-            "method": "GET",
-            "path": "/store/order/6",
+            "path": "/products/",
             "headers": {
                 "Content-Type": "application/json"
             },
@@ -2309,2044 +899,85 @@
         }
     },
     {
-        "test_name": "Fetch order with invalid ID",
-        "request": {
-            "method": "GET",
-            "path": "/store/order/0",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {},
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 400,
-            "body": {}
-        }
-    },
-    {
-        "test_name": "Delete order with valid ID",
-        "request": {
-            "method": "DELETE",
-            "path": "/store/order/12345",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {},
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 200,
-            "body": {}
-        }
-    },
-    {
-        "test_name": "Delete order with invalid ID format",
-        "request": {
-            "method": "DELETE",
-            "path": "/store/order/invalid-id",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {},
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 400,
-            "body": {
-                "message": "Invalid ID supplied"
-            }
-        }
-    },
-    {
-        "test_name": "Delete non-existent order",
-        "request": {
-            "method": "DELETE",
-            "path": "/store/order/99999",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {},
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 404,
-            "body": {
-                "message": "Order not found"
-            }
-        }
-    },
-    {
-        "test_name": "Create user with valid data",
+        "test_name": "Successful customer registration",
         "request": {
             "method": "POST",
-            "path": "/user",
+            "path": "/register",
             "headers": {
                 "Content-Type": "application/json"
             },
             "body": {
-                "username": "testuser",
-                "firstName": "John",
-                "lastName": "Doe",
-                "email": "john.doe@example.com",
-                "password": "securepassword",
-                "phone": "1234567890",
-                "userStatus": 1
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 200,
-            "body": {
-                "message": "User created successfully"
-            }
-        }
-    },
-    {
-        "test_name": "Create user with missing required fields",
-        "request": {
-            "method": "POST",
-            "path": "/user",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "username": "testuser",
-                "firstName": "John"
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 400,
-            "body": {
-                "error": "Missing required fields"
-            }
-        }
-    },
-    {
-        "test_name": "Create user with invalid email format",
-        "request": {
-            "method": "POST",
-            "path": "/user",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "username": "testuser",
-                "firstName": "John",
-                "lastName": "Doe",
-                "email": "invalid-email",
-                "password": "securepassword",
-                "phone": "1234567890",
-                "userStatus": 1
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 400,
-            "body": {
-                "error": "Invalid email format"
-            }
-        }
-    },
-    {
-        "test_name": "Create multiple users with valid data",
-        "request": {
-            "method": "POST",
-            "path": "/user/createWithArray",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "item_0": {
-                    "id": 1,
-                    "username": "user1",
-                    "firstName": "First",
-                    "lastName": "User",
-                    "email": "user1@example.com",
-                    "password": "password1",
-                    "phone": "1234567890",
-                    "userStatus": 1
-                },
-                "item_1": {
-                    "id": 2,
-                    "username": "user2",
-                    "firstName": "Second",
-                    "lastName": "User",
-                    "email": "user2@example.com",
-                    "password": "password2",
-                    "phone": "0987654321",
-                    "userStatus": 1
+                "user": {
+                    "_links": [],
+                    "address": "123 Main St",
+                    "email": "test@example.com",
+                    "name": "John Doe",
+                    "password": "Password1",
+                    "phone": "+123 456 789 00"
                 }
             },
             "query": {}
         },
         "expected_response": {
-            "status_code": 200,
-            "body": {}
-        }
-    },
-    {
-        "test_name": "Create users with missing required fields",
-        "request": {
-            "method": "POST",
-            "path": "/user/createWithArray",
-            "headers": {
-                "Content-Type": "application/json"
-            },
+            "status_code": 201,
             "body": {
-                "item_0": {
-                    "username": "user3",
-                    "firstName": "Third",
-                    "lastName": "User",
-                    "email": "user3@example.com"
+                "address": "123 Main St",
+                "email": "test@example.com",
+                "name": "John Doe",
+                "phone": "+123 456 789 00",
+                "_links": {
+                    "empty": true
                 }
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 400,
-            "body": {
-                "error": "Missing required fields"
             }
         }
     },
     {
-        "test_name": "Create users with invalid email format",
+        "test_name": "Email format validation failure",
         "request": {
             "method": "POST",
-            "path": "/user/createWithArray",
+            "path": "/register",
             "headers": {
                 "Content-Type": "application/json"
             },
             "body": {
-                "item_0": {
-                    "id": 3,
-                    "username": "user4",
-                    "firstName": "Fourth",
-                    "lastName": "User",
+                "user": {
+                    "_links": [],
+                    "address": "123 Main St",
                     "email": "invalid-email",
-                    "password": "password4",
-                    "phone": "1122334455",
-                    "userStatus": 1
+                    "name": "Jane Doe",
+                    "password": "Password1",
+                    "phone": "+123 456 789 00"
                 }
             },
             "query": {}
         },
         "expected_response": {
-            "status_code": 400,
-            "body": {
-                "error": "Invalid email format"
-            }
+            "status_code": 403,
+            "body": {}
         }
     },
     {
-        "test_name": "Create users with valid user list",
+        "test_name": "Password length validation failure",
         "request": {
             "method": "POST",
-            "path": "/user/createWithList",
+            "path": "/register",
             "headers": {
                 "Content-Type": "application/json"
             },
             "body": {
-                "item_0": {
-                    "id": 1,
-                    "username": "user1",
-                    "firstName": "First1",
-                    "lastName": "Last1",
-                    "email": "user1@example.com",
-                    "password": "password1",
-                    "phone": "1234567890",
-                    "userStatus": 1
-                },
-                "item_1": {
-                    "id": 2,
-                    "username": "user2",
-                    "firstName": "First2",
-                    "lastName": "Last2",
-                    "email": "user2@example.com",
-                    "password": "password2",
-                    "phone": "0987654321",
-                    "userStatus": 2
+                "user": {
+                    "_links": [],
+                    "address": "123 Main St",
+                    "email": "test@example.com",
+                    "name": "John Doe",
+                    "password": "short",
+                    "phone": "+123 456 789 00"
                 }
             },
             "query": {}
         },
         "expected_response": {
-            "status_code": 200,
-            "body": {}
-        }
-    },
-    {
-        "test_name": "Create users with missing email",
-        "request": {
-            "method": "POST",
-            "path": "/user/createWithList",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "item_0": {
-                    "id": 3,
-                    "username": "user3",
-                    "firstName": "First3",
-                    "lastName": "Last3",
-                    "email": "",
-                    "password": "password3",
-                    "phone": "1122334455",
-                    "userStatus": 3
-                }
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 400,
-            "body": {
-                "error": "Email is required"
-            }
-        }
-    },
-    {
-        "test_name": "Create users with invalid userStatus",
-        "request": {
-            "method": "POST",
-            "path": "/user/createWithList",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "item_0": {
-                    "id": 4,
-                    "username": "user4",
-                    "firstName": "First4",
-                    "lastName": "Last4",
-                    "email": "user4@example.com",
-                    "password": "password4",
-                    "phone": "2233445566",
-                    "userStatus": -1
-                }
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 400,
-            "body": {
-                "error": "Invalid user status"
-            }
-        }
-    },
-    {
-        "test_name": "Successful login with valid credentials",
-        "request": {
-            "method": "GET",
-            "path": "/user/login",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "username": "validUser",
-                "password": "validPassword"
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 200,
-            "body": {
-                "message": "Login successful"
-            }
-        }
-    },
-    {
-        "test_name": "Login failure with invalid username",
-        "request": {
-            "method": "GET",
-            "path": "/user/login",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "username": "invalidUser",
-                "password": "validPassword"
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 400,
-            "body": {
-                "message": "Invalid username/password supplied"
-            }
-        }
-    },
-    {
-        "test_name": "Login failure with empty password",
-        "request": {
-            "method": "GET",
-            "path": "/user/login",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "username": "validUser",
-                "password": ""
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 400,
-            "body": {
-                "message": "Invalid username/password supplied"
-            }
-        }
-    },
-    {
-        "test_name": "Successful Logout",
-        "request": {
-            "method": "GET",
-            "path": "/user/logout",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {},
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 200,
-            "body": {}
-        }
-    },
-    {
-        "test_name": "Logout Without Authorization",
-        "request": {
-            "method": "GET",
-            "path": "/user/logout",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {},
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 200,
-            "body": {}
-        }
-    },
-    {
-        "test_name": "Logout with Invalid Session",
-        "request": {
-            "method": "GET",
-            "path": "/user/logout",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {},
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 200,
-            "body": {}
-        }
-    },
-    {
-        "test_name": "Fetch user details for existing user",
-        "request": {
-            "method": "GET",
-            "path": "/user/user1",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {},
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 200,
-            "body": {
-                "id": 0,
-                "username": "user1",
-                "firstName": "firstName",
-                "lastName": "lastName",
-                "email": "email",
-                "password": "password",
-                "phone": "phone",
-                "userStatus": 6
-            }
-        }
-    },
-    {
-        "test_name": "Fetch user details for non-existing user",
-        "request": {
-            "method": "GET",
-            "path": "/user/nonexistentUser",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {},
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 404,
-            "body": {}
-        }
-    },
-    {
-        "test_name": "Fetch user details with invalid username format",
-        "request": {
-            "method": "GET",
-            "path": "/user/!@#$%^&*()",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {},
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 400,
-            "body": {}
-        }
-    },
-    {
-        "test_name": "Update user successfully",
-        "request": {
-            "method": "PUT",
-            "path": "/user/johndoe",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "id": 1,
-                "username": "johndoe",
-                "firstName": "John",
-                "lastName": "Doe",
-                "email": "johndoe@example.com",
-                "password": "newpassword",
-                "phone": "1234567890",
-                "userStatus": 1
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 200,
-            "body": {
-                "message": "User updated successfully"
-            }
-        }
-    },
-    {
-        "test_name": "Invalid user supplied",
-        "request": {
-            "method": "PUT",
-            "path": "/user/johndoe",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "id": 1,
-                "username": "",
-                "firstName": "John",
-                "lastName": "Doe",
-                "email": "johndoe@example.com",
-                "password": "newpassword",
-                "phone": "1234567890",
-                "userStatus": 1
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 400,
-            "body": {
-                "error": "Invalid user supplied"
-            }
-        }
-    },
-    {
-        "test_name": "User not found",
-        "request": {
-            "method": "PUT",
-            "path": "/user/nonexistentuser",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "id": 2,
-                "username": "nonexistentuser",
-                "firstName": "Jane",
-                "lastName": "Doe",
-                "email": "janedoe@example.com",
-                "password": "anotherpassword",
-                "phone": "0987654321",
-                "userStatus": 1
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 404,
-            "body": {
-                "error": "User not found"
-            }
-        }
-    },
-    {
-        "test_name": "Delete user successfully",
-        "request": {
-            "method": "DELETE",
-            "path": "/user/johndoe",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {},
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 200,
-            "body": {}
-        }
-    },
-    {
-        "test_name": "Invalid username supplied",
-        "request": {
-            "method": "DELETE",
-            "path": "/user/",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {},
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 400,
-            "body": {}
-        }
-    },
-    {
-        "test_name": "User not found",
-        "request": {
-            "method": "DELETE",
-            "path": "/user/nonexistentuser",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {},
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 404,
-            "body": {}
-        }
-    },
-    {
-        "test_name": "Update Pet with valid data",
-        "request": {
-            "method": "PUT",
-            "path": "/pet",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "id": 1,
-                "name": "doggie",
-                "photoUrls": [
-                    "url1",
-                    "url2"
-                ],
-                "category": {
-                    "id": 6,
-                    "name": "dog"
-                },
-                "tags": [
-                    {
-                        "id": 1,
-                        "name": "tag1"
-                    }
-                ],
-                "status": "available"
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 200,
-            "body": {}
-        }
-    },
-    {
-        "test_name": "Update Pet with missing required fields",
-        "request": {
-            "method": "PUT",
-            "path": "/pet",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "id": 2,
-                "category": {
-                    "id": 3,
-                    "name": "cat"
-                },
-                "tags": [],
-                "status": "sold"
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 405,
-            "body": {}
-        }
-    },
-    {
-        "test_name": "Update Pet with invalid ID",
-        "request": {
-            "method": "PUT",
-            "path": "/pet",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "id": -1,
-                "name": "doggie",
-                "photoUrls": [
-                    "url1"
-                ],
-                "category": {
-                    "id": 4,
-                    "name": "dog"
-                },
-                "tags": [
-                    {
-                        "id": 2,
-                        "name": "tag2"
-                    }
-                ],
-                "status": "available"
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 400,
-            "body": {}
-        }
-    },
-    {
-        "test_name": "Add a valid pet",
-        "request": {
-            "method": "POST",
-            "path": "/pet",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "name": "doggie",
-                "photoUrls": [
-                    "url1",
-                    "url2"
-                ],
-                "category": {
-                    "id": 6,
-                    "name": "Dogs"
-                },
-                "tags": [
-                    {
-                        "id": 1,
-                        "name": "tag1"
-                    }
-                ],
-                "status": "available"
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 200,
-            "body": {
-                "message": "Pet added successfully"
-            }
-        }
-    },
-    {
-        "test_name": "Add pet with missing name",
-        "request": {
-            "method": "POST",
-            "path": "/pet",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "photoUrls": [
-                    "url1",
-                    "url2"
-                ],
-                "category": {
-                    "id": 6,
-                    "name": "Dogs"
-                },
-                "tags": [
-                    {
-                        "id": 1,
-                        "name": "tag1"
-                    }
-                ],
-                "status": "available"
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 405,
-            "body": {
-                "message": "Invalid input"
-            }
-        }
-    },
-    {
-        "test_name": "Add pet with invalid status",
-        "request": {
-            "method": "POST",
-            "path": "/pet",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "name": "doggie",
-                "photoUrls": [
-                    "url1",
-                    "url2"
-                ],
-                "category": {
-                    "id": 6,
-                    "name": "Dogs"
-                },
-                "tags": [
-                    {
-                        "id": 1,
-                        "name": "tag1"
-                    }
-                ],
-                "status": "invalid_status"
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 405,
-            "body": {
-                "message": "Invalid input"
-            }
-        }
-    },
-    {
-        "test_name": "Get pets by available status",
-        "request": {
-            "method": "GET",
-            "path": "/pet/findByStatus",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "status": [
-                    "available"
-                ]
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 200,
-            "body": [
-                {
-                    "id": 1,
-                    "category": {
-                        "id": 6,
-                        "name": "Dogs"
-                    },
-                    "name": "Buddy",
-                    "photoUrls": [
-                        "url1",
-                        "url2"
-                    ],
-                    "tags": [],
-                    "status": "available"
-                }
-            ]
-        }
-    },
-    {
-        "test_name": "Get pets by pending status",
-        "request": {
-            "method": "GET",
-            "path": "/pet/findByStatus",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "status": [
-                    "pending"
-                ]
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 200,
-            "body": [
-                {
-                    "id": 2,
-                    "category": {
-                        "id": 6,
-                        "name": "Dogs"
-                    },
-                    "name": "Charlie",
-                    "photoUrls": [
-                        "url3"
-                    ],
-                    "tags": [],
-                    "status": "pending"
-                }
-            ]
-        }
-    },
-    {
-        "test_name": "Invalid status value",
-        "request": {
-            "method": "GET",
-            "path": "/pet/findByStatus",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "status": [
-                    "invalid_status"
-                ]
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 400,
-            "body": {}
-        }
-    },
-    {
-        "test_name": "Get pets by valid tags",
-        "request": {
-            "method": "GET",
-            "path": "/pet/findByTags",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "tags": [
-                    "dog",
-                    "cute"
-                ]
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 200,
-            "body": [
-                {
-                    "id": 1,
-                    "category": {
-                        "id": 6,
-                        "name": "Dog"
-                    },
-                    "name": "doggie",
-                    "photoUrls": [
-                        "url1",
-                        "url2"
-                    ],
-                    "tags": [
-                        {
-                            "id": 1,
-                            "name": "cute"
-                        }
-                    ],
-                    "status": "available"
-                }
-            ]
-        }
-    },
-    {
-        "test_name": "Get pets by single valid tag",
-        "request": {
-            "method": "GET",
-            "path": "/pet/findByTags",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "tags": [
-                    "cat"
-                ]
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 200,
-            "body": [
-                {
-                    "id": 2,
-                    "category": {
-                        "id": 5,
-                        "name": "Cat"
-                    },
-                    "name": "kitten",
-                    "photoUrls": [
-                        "url3"
-                    ],
-                    "tags": [
-                        {
-                            "id": 2,
-                            "name": "playful"
-                        }
-                    ],
-                    "status": "available"
-                }
-            ]
-        }
-    },
-    {
-        "test_name": "Get pets with invalid tag value",
-        "request": {
-            "method": "GET",
-            "path": "/pet/findByTags",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "tags": [
-                    "invalidTag"
-                ]
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 400,
-            "body": {}
-        }
-    },
-    {
-        "test_name": "Get existing pet by valid ID",
-        "request": {
-            "method": "GET",
-            "path": "/pet/1",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {},
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 200,
-            "body": {
-                "id": 1,
-                "name": "doggie",
-                "photoUrls": [
-                    "url1",
-                    "url2"
-                ],
-                "category": {
-                    "id": 6,
-                    "name": "category_name"
-                },
-                "tags": [
-                    {
-                        "id": 1,
-                        "name": "tag_name"
-                    }
-                ],
-                "status": "available"
-            }
-        }
-    },
-    {
-        "test_name": "Get pet by ID that does not exist",
-        "request": {
-            "method": "GET",
-            "path": "/pet/999",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {},
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 404,
-            "body": {}
-        }
-    },
-    {
-        "test_name": "Get pet by invalid ID format",
-        "request": {
-            "method": "GET",
-            "path": "/pet/abc",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {},
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 400,
-            "body": {}
-        }
-    },
-    {
-        "test_name": "Update pet with valid data",
-        "request": {
-            "method": "POST",
-            "path": "/pet/1",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "name": "Buddy",
-                "status": "available"
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 200,
-            "body": {}
-        }
-    },
-    {
-        "test_name": "Update pet with missing status",
-        "request": {
-            "method": "POST",
-            "path": "/pet/2",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "name": "Max"
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 405,
-            "body": {}
-        }
-    },
-    {
-        "test_name": "Update pet with invalid petId",
-        "request": {
-            "method": "POST",
-            "path": "/pet/abc",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "name": "Charlie",
-                "status": "available"
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 405,
-            "body": {}
-        }
-    },
-    {
-        "test_name": "Delete existing pet",
-        "request": {
-            "method": "DELETE",
-            "path": "/pet/1",
-            "headers": {
-                "api_key": "valid_api_key",
-                "Content-Type": "application/json"
-            },
-            "body": {},
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 200,
-            "body": {}
-        }
-    },
-    {
-        "test_name": "Delete pet with invalid ID",
-        "request": {
-            "method": "DELETE",
-            "path": "/pet/9999",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {},
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 400,
-            "body": {
-                "error": "Invalid pet value"
-            }
-        }
-    },
-    {
-        "test_name": "Delete pet without API key",
-        "request": {
-            "method": "DELETE",
-            "path": "/pet/2",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {},
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 200,
-            "body": {}
-        }
-    },
-    {
-        "test_name": "Upload image with valid petId and file",
-        "request": {
-            "method": "POST",
-            "path": "/pet/123/uploadImage",
-            "headers": {
-                "Content-Type": "multipart/form-data"
-            },
-            "body": {
-                "additionalMetadata": "Image of my pet",
-                "file": "binary_data"
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 200,
-            "body": {
-                "code": 0,
-                "type": "type",
-                "message": "message"
-            }
-        }
-    },
-    {
-        "test_name": "Upload image with missing petId",
-        "request": {
-            "method": "POST",
-            "path": "/pet//uploadImage",
-            "headers": {
-                "Content-Type": "multipart/form-data"
-            },
-            "body": {
-                "additionalMetadata": "Image of my pet",
-                "file": "binary_data"
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 400,
-            "body": {
-                "code": 400,
-                "type": "error",
-                "message": "petId is required"
-            }
-        }
-    },
-    {
-        "test_name": "Upload image without file",
-        "request": {
-            "method": "POST",
-            "path": "/pet/456/uploadImage",
-            "headers": {
-                "Content-Type": "multipart/form-data"
-            },
-            "body": {
-                "additionalMetadata": "No file provided"
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 400,
-            "body": {
-                "code": 400,
-                "type": "error",
-                "message": "file is required"
-            }
-        }
-    },
-    {
-        "test_name": "Get inventory successfully",
-        "request": {
-            "method": "GET",
-            "path": "/store/inventory",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {},
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 200,
-            "body": {}
-        }
-    },
-    {
-        "test_name": "Get inventory returns an object with integer values",
-        "request": {
-            "method": "GET",
-            "path": "/store/inventory",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {},
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 200,
-            "body": {
-                "item1": 10,
-                "item2": 5,
-                "item3": 20
-            }
-        }
-    },
-    {
-        "test_name": "Get inventory returns an empty object",
-        "request": {
-            "method": "GET",
-            "path": "/store/inventory",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {},
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 200,
-            "body": {}
-        }
-    },
-    {
-        "test_name": "Place order with valid data",
-        "request": {
-            "method": "POST",
-            "path": "/store/order",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "petId": 6,
-                "quantity": 1,
-                "shipDate": "2000-01-23T04:56:07.000+00:00",
-                "status": "placed",
-                "complete": false
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 200,
-            "body": {
-                "petId": 6,
-                "quantity": 1,
-                "id": 0,
-                "shipDate": "2000-01-23T04:56:07.000+00:00",
-                "complete": false,
-                "status": "placed"
-            }
-        }
-    },
-    {
-        "test_name": "Place order with missing petId",
-        "request": {
-            "method": "POST",
-            "path": "/store/order",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "quantity": 1,
-                "shipDate": "2000-01-23T04:56:07.000+00:00",
-                "status": "placed",
-                "complete": false
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 400,
-            "body": {}
-        }
-    },
-    {
-        "test_name": "Place order with invalid status",
-        "request": {
-            "method": "POST",
-            "path": "/store/order",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "petId": 6,
-                "quantity": 1,
-                "shipDate": "2000-01-23T04:56:07.000+00:00",
-                "status": "invalid_status",
-                "complete": false
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 400,
-            "body": {}
-        }
-    },
-    {
-        "test_name": "Get Order by Valid ID",
-        "request": {
-            "method": "GET",
-            "path": "/store/order/1",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {},
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 200,
-            "body": {
-                "id": 1,
-                "petId": 6,
-                "quantity": 1,
-                "shipDate": "2000-01-23T04:56:07.000+00:00",
-                "complete": false,
-                "status": "placed"
-            }
-        }
-    },
-    {
-        "test_name": "Get Order by ID Out of Range",
-        "request": {
-            "method": "GET",
-            "path": "/store/order/6",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {},
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 404,
-            "body": {}
-        }
-    },
-    {
-        "test_name": "Get Order by Invalid ID",
-        "request": {
-            "method": "GET",
-            "path": "/store/order/0",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {},
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 400,
-            "body": {}
-        }
-    },
-    {
-        "test_name": "Delete order with valid ID",
-        "request": {
-            "method": "DELETE",
-            "path": "/store/order/12345",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {},
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 200,
-            "body": {}
-        }
-    },
-    {
-        "test_name": "Delete order with invalid ID format",
-        "request": {
-            "method": "DELETE",
-            "path": "/store/order/invalid-id",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {},
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 400,
-            "body": {
-                "error": "Invalid ID supplied"
-            }
-        }
-    },
-    {
-        "test_name": "Delete order that does not exist",
-        "request": {
-            "method": "DELETE",
-            "path": "/store/order/99999",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {},
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 404,
-            "body": {
-                "error": "Order not found"
-            }
-        }
-    },
-    {
-        "test_name": "Create user with valid data",
-        "request": {
-            "method": "POST",
-            "path": "/user",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "id": 1,
-                "username": "newuser",
-                "firstName": "John",
-                "lastName": "Doe",
-                "email": "john.doe@example.com",
-                "password": "password123",
-                "phone": "1234567890",
-                "userStatus": 1
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 200,
-            "body": {}
-        }
-    },
-    {
-        "test_name": "Create user with missing required fields",
-        "request": {
-            "method": "POST",
-            "path": "/user",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "username": "incompleteuser",
-                "email": "incomplete@example.com"
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 400,
-            "body": {
-                "error": "Missing required fields"
-            }
-        }
-    },
-    {
-        "test_name": "Create user with invalid email format",
-        "request": {
-            "method": "POST",
-            "path": "/user",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "id": 2,
-                "username": "invaliduser",
-                "firstName": "Jane",
-                "lastName": "Doe",
-                "email": "invalidemail",
-                "password": "password123",
-                "phone": "0987654321",
-                "userStatus": 1
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 400,
-            "body": {
-                "error": "Invalid email format"
-            }
-        }
-    },
-    {
-        "test_name": "Create users with valid data",
-        "request": {
-            "method": "POST",
-            "path": "/user/createWithArray",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "item_0": {
-                    "id": 1,
-                    "username": "user1",
-                    "firstName": "First1",
-                    "lastName": "Last1",
-                    "email": "user1@example.com",
-                    "password": "password1",
-                    "phone": "1234567890",
-                    "userStatus": 1
-                },
-                "item_1": {
-                    "id": 2,
-                    "username": "user2",
-                    "firstName": "First2",
-                    "lastName": "Last2",
-                    "email": "user2@example.com",
-                    "password": "password2",
-                    "phone": "0987654321",
-                    "userStatus": 2
-                }
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 200,
-            "body": {}
-        }
-    },
-    {
-        "test_name": "Create users with missing required fields",
-        "request": {
-            "method": "POST",
-            "path": "/user/createWithArray",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "item_0": {
-                    "id": 3,
-                    "username": "user3",
-                    "firstName": "",
-                    "lastName": "Last3",
-                    "email": "user3@example.com",
-                    "password": "password3",
-                    "phone": "1231231234",
-                    "userStatus": 3
-                }
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 400,
-            "body": {
-                "error": "Missing required fields"
-            }
-        }
-    },
-    {
-        "test_name": "Create users with invalid email format",
-        "request": {
-            "method": "POST",
-            "path": "/user/createWithArray",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "item_0": {
-                    "id": 4,
-                    "username": "user4",
-                    "firstName": "First4",
-                    "lastName": "Last4",
-                    "email": "invalid_email",
-                    "password": "password4",
-                    "phone": "3213213210",
-                    "userStatus": 4
-                }
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 400,
-            "body": {
-                "error": "Invalid email format"
-            }
-        }
-    },
-    {
-        "test_name": "Create users with valid user list",
-        "request": {
-            "method": "POST",
-            "path": "/user/createWithList",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "item_0": {
-                    "id": 1,
-                    "username": "user1",
-                    "firstName": "John",
-                    "lastName": "Doe",
-                    "email": "john.doe@example.com",
-                    "password": "password123",
-                    "phone": "1234567890",
-                    "userStatus": 1
-                },
-                "item_1": {
-                    "id": 2,
-                    "username": "user2",
-                    "firstName": "Jane",
-                    "lastName": "Doe",
-                    "email": "jane.doe@example.com",
-                    "password": "password456",
-                    "phone": "0987654321",
-                    "userStatus": 1
-                }
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 200,
-            "body": {}
-        }
-    },
-    {
-        "test_name": "Create users with missing required fields",
-        "request": {
-            "method": "POST",
-            "path": "/user/createWithList",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "item_0": {
-                    "username": "user3",
-                    "email": "user3@example.com"
-                }
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 400,
-            "body": {
-                "error": "Missing required fields"
-            }
-        }
-    },
-    {
-        "test_name": "Create users with invalid email format",
-        "request": {
-            "method": "POST",
-            "path": "/user/createWithList",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "item_0": {
-                    "id": 3,
-                    "username": "user4",
-                    "firstName": "Alice",
-                    "lastName": "Smith",
-                    "email": "alice.smith@com",
-                    "password": "password789",
-                    "phone": "1122334455",
-                    "userStatus": 1
-                }
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 400,
-            "body": {
-                "error": "Invalid email format"
-            }
-        }
-    },
-    {
-        "test_name": "Successful login with valid credentials",
-        "request": {
-            "method": "GET",
-            "path": "/user/login",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "username": "validUser",
-                "password": "validPassword"
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 200,
-            "body": {
-                "message": "Login successful"
-            }
-        }
-    },
-    {
-        "test_name": "Login attempt with invalid username",
-        "request": {
-            "method": "GET",
-            "path": "/user/login",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "username": "invalidUser",
-                "password": "validPassword"
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 400,
-            "body": {
-                "error": "Invalid username/password supplied"
-            }
-        }
-    },
-    {
-        "test_name": "Login attempt with empty password",
-        "request": {
-            "method": "GET",
-            "path": "/user/login",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "username": "validUser",
-                "password": ""
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 400,
-            "body": {
-                "error": "Invalid username/password supplied"
-            }
-        }
-    },
-    {
-        "test_name": "Successful logout user",
-        "request": {
-            "method": "GET",
-            "path": "/user/logout",
-            "headers": {
-                "Authorization": "Bearer valid_access_token",
-                "Content-Type": "application/json"
-            },
-            "body": {},
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 200,
-            "body": {
-                "message": "Logout successful"
-            }
-        }
-    },
-    {
-        "test_name": "Logout without authorization token",
-        "request": {
-            "method": "GET",
-            "path": "/user/logout",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {},
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 401,
-            "body": {
-                "error": "Unauthorized"
-            }
-        }
-    },
-    {
-        "test_name": "Logout with expired token",
-        "request": {
-            "method": "GET",
-            "path": "/user/logout",
-            "headers": {
-                "Authorization": "Bearer expired_access_token",
-                "Content-Type": "application/json"
-            },
-            "body": {},
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 401,
-            "body": {
-                "error": "Token has expired"
-            }
-        }
-    },
-    {
-        "test_name": "Fetch existing user by username",
-        "request": {
-            "method": "GET",
-            "path": "/user/user1",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {},
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 200,
-            "body": {
-                "id": 0,
-                "username": "user1",
-                "firstName": "firstName",
-                "lastName": "lastName",
-                "email": "email",
-                "password": "password",
-                "phone": "phone",
-                "userStatus": 6
-            }
-        }
-    },
-    {
-        "test_name": "Fetch non-existing user",
-        "request": {
-            "method": "GET",
-            "path": "/user/nonexistentUser",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {},
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 404,
-            "body": {}
-        }
-    },
-    {
-        "test_name": "Fetch user with invalid username format",
-        "request": {
-            "method": "GET",
-            "path": "/user/!invalidUser@",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {},
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 400,
-            "body": {}
-        }
-    },
-    {
-        "test_name": "Update user successfully with valid data",
-        "request": {
-            "method": "PUT",
-            "path": "/user/johndoe",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "id": 1,
-                "username": "johndoe",
-                "firstName": "John",
-                "lastName": "Doe",
-                "email": "johndoe@example.com",
-                "password": "securepassword",
-                "phone": "1234567890",
-                "userStatus": 1
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 200,
-            "body": {
-                "message": "User updated successfully"
-            }
-        }
-    },
-    {
-        "test_name": "Fail to update user due to invalid data",
-        "request": {
-            "method": "PUT",
-            "path": "/user/johndoe",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "id": 1,
-                "username": "johndoe",
-                "firstName": "",
-                "lastName": "Doe",
-                "email": "invalid-email",
-                "password": "securepassword",
-                "phone": "1234567890",
-                "userStatus": 1
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 400,
-            "body": {
-                "error": "Invalid user supplied"
-            }
-        }
-    },
-    {
-        "test_name": "Fail to update user when user does not exist",
-        "request": {
-            "method": "PUT",
-            "path": "/user/unknownuser",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {
-                "id": 2,
-                "username": "unknownuser",
-                "firstName": "Unknown",
-                "lastName": "User",
-                "email": "unknown@example.com",
-                "password": "password",
-                "phone": "0987654321",
-                "userStatus": 1
-            },
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 404,
-            "body": {
-                "error": "User not found"
-            }
-        }
-    },
-    {
-        "test_name": "Delete user with valid username",
-        "request": {
-            "method": "DELETE",
-            "path": "/user/johndoe",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {},
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 200,
-            "body": {}
-        }
-    },
-    {
-        "test_name": "Delete user with invalid username",
-        "request": {
-            "method": "DELETE",
-            "path": "/user/invalid_user_123",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {},
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 404,
-            "body": {}
-        }
-    },
-    {
-        "test_name": "Delete user with missing username",
-        "request": {
-            "method": "DELETE",
-            "path": "/user/",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": {},
-            "query": {}
-        },
-        "expected_response": {
-            "status_code": 400,
+            "status_code": 403,
             "body": {}
         }
     }

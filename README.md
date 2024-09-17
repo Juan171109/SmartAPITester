@@ -61,6 +61,17 @@ SmartAPITester generates two main output files in the `results` directory:
 2. `test_results.json`: Contains the results of all executed test cases
 
 Additionally, the tool provides console output with information about test case generation, execution, and analysis.
+
+## Test cases statistics
+
+SmartAPITester generate test cases and saved in the `results` directory. Use below command to get test case statistics.
+
+```
+python .\testcase_analysis.py E:\Projects\PR60\SmartAPITester\results\test_cases.json
+```
+
+replace the test case path with your real test case path.
+
 ## Test Results Analysis
 
 SmartAPITester provide test results analysis by following command:
