@@ -281,10 +281,10 @@ def main():
                 print("---")
 
     # Save all test cases and results
-    with open('results/test_cases.json', 'w') as f:
+    with open('results/archieved/test_cases.json', 'w') as f:
         json.dump(all_test_cases, f, indent=4)
 
-    with open('results/test_results.json', 'w') as f:
+    with open('results/archieved/test_results.json', 'w') as f:
         json.dump(all_test_results, f, indent=4)
 
     print(f"Generated and ran {len(all_test_cases)} test cases across {iterations} iterations.")

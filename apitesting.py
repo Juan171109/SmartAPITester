@@ -75,7 +75,7 @@ def main():
     operations = analyze_spec(openapi_spec)
 
     # Define the path where you want to save the operations file.
-    operations_file_path = "results/operations.json"
+    operations_file_path = "results/archieved/operations.json"
 
     # Write the operations to a JSON file.
     with open(operations_file_path, 'w') as operations_file:

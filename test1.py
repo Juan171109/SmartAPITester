@@ -102,7 +102,7 @@ def main():
         all_test_cases.extend(test_case)
 
     # Save all test cases to a JSON file
-    with open('results/test_cases.json', 'w') as f:
+    with open('results/archieved/test_cases.json', 'w') as f:
         json.dump(all_test_cases, f, indent=4)
 
     print("Test cases saved to test_cases.json")
@@ -122,7 +122,7 @@ def main():
         print("---")
 
     # Save test results
-    with open('results/test_results.json', 'w') as f:
+    with open('results/archieved/test_results.json', 'w') as f:
         json.dump(test_results, f, indent=4)
 
     print("Test results saved to test_results.json")

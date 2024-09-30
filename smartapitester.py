@@ -19,7 +19,8 @@ from sklearn.ensemble import IsolationForest
 from mlxtend.frequent_patterns import apriori
 from mlxtend.frequent_patterns import association_rules
 from typing import Dict, List
-
+import time
+from datetime import datetime
 
 def analyze_spec(spec):
     global_consumes = spec.get('consumes', ['application/json'])
@@ -43,6 +44,7 @@ def analyze_spec(spec):
 
 
 def run_test_case(base_url, test_case, operation):
+    start_time = time.time()
     request = test_case['request']
     url = f"{base_url}{request['path']}"
     method = request['method'].lower()
@@ -71,7 +73,9 @@ def run_test_case(base_url, test_case, operation):
             'expected_status': expected_status,
             'actual_status': actual_status,
             'expected_body': expected_body,
-            'actual_body': actual_body
+            'actual_body': actual_body,
+            'timestamp': datetime.now().isoformat(),
+            'duration': time.time() - start_time
         }
 
         return result
@@ -261,7 +265,8 @@ def generate_test_case(operation, previous_results=None):
             Based on this analysis:
             1. Generate test cases that explore underrepresented clusters
             2. Create test cases similar to the anomalous ones to further investigate edge cases
-            3. Utilize the association rules to create test cases that combine features in ways likely to uncover issues
+            3. Utilize the association rules to create test cases that combine features in ways 
+            likely to uncover issues
             4. Ensure that parameter dependencies are respected in the generated test cases
             """
 
@@ -294,6 +299,7 @@ def generate_test_case(operation, previous_results=None):
         validated_test_cases = []
         for case in test_cases:
             if all(key in case for key in ['test_name', 'request', 'expected_response']):
+                case['timestamp'] = datetime.now().isoformat()
                 # Handle parameter dependencies
                 generated_params = case['request'].get('query', {})
                 body = case['request'].get('body', {})
@@ -341,6 +347,8 @@ def main():
     all_test_cases = []
     all_test_results = []
 
+    overall_start_time = time.time()
+
     for iteration in range(iterations):
         print(f"Iteration {iteration + 1}/{iterations}")
 
@@ -364,6 +372,9 @@ def main():
                         print(f"Error: {result['error']}")
                 print("---")
 
+    overall_end_time = time.time()
+    overall_duration = overall_end_time - overall_start_time
+
     # Save all test cases and results
     with open('results/test_cases.json', 'w') as f:
         json.dump(all_test_cases, f, indent=4)
@@ -374,6 +385,7 @@ def main():
     print(f"Generated and ran {len(all_test_cases)} test cases across {iterations} iterations.")
     print(f"Test cases saved to test_cases.json")
     print(f"Test results saved to test_results.json")
+    print(f"Overall testing duration: {overall_duration:.2f} seconds")
 
 
 if __name__ == "__main__":
